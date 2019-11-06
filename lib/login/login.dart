@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_material/CustomWidget/CustomWidget.dart';
 import 'package:flutter_material/Root/RootWidget.dart';
 import 'package:flutter_material/models/login_entity.dart';
-
+import 'package:flutter_material/Until/localFile.dart';
 
 typedef GetInputText = Function(String text);
 
@@ -23,8 +23,13 @@ class Login  extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   static const platform = const MethodChannel('material.flutter.io/deviceToken');
   String _deviceToken = '';
+  String userName;
+  String password;
+  bool isSelectUserProtocol;
+  String errorInfo;
 
   void _getDeviceToken() async {
     String dt;
@@ -85,6 +90,75 @@ class _LoginState extends State<Login> {
       return generateMd5(result);
   }
 
+  void _checkLoginInfo(){
+    print('开始');
+    if (userName != null && password != null && isSelectUserProtocol == true) {
+      print('开始1');
+      _login();
+    } else {
+      if (userName == null || password == null) {
+        print('开始2');
+        setState(() {
+          errorInfo = '用户名密码不能为空';
+        });
+      } else if (isSelectUserProtocol != true) {
+        print('开始3');
+        setState(() {
+          errorInfo = '需要勾选用户协议';
+        });
+      }
+    }
+
+  }
+
+  void _login() async{
+    String url = 'https://gateway-mobile.wyawds.com/api/material-app/material-login.json';
+    var deviceInfo = DeviceInfoPlugin();
+    var iosInfo = await deviceInfo.iosInfo;
+
+    Map params = {
+      'mobile': '$userName',
+      'pwd': '$password',
+      'device_token': '',
+      'device_type': 1,
+      'timestamp': '${((DateTime.now().millisecondsSinceEpoch) / 1000).toInt()}',
+      'nonce_str': getRandomNumber(32),
+    };
+
+    try {
+      String str = paramsCompare(params);
+      print('-----str----$str-----');
+      var baseOption = BaseOptions(
+        headers: {
+          'version' : '1.0.5',
+          'platform' : 'ios13.1',
+          'sign' : str,
+        },
+        contentType: "application/json",
+        responseType: ResponseType.plain,
+      );
+      var response = await Dio(baseOption).post(
+        url,
+        data: params,
+      );
+      print(response.data);
+      LoginEntity loginModel = LoginEntity.fromJson(json.decode(response.data));
+      localSave('access_token', loginModel.data.accessToken);
+
+    } catch (error) {
+      print('error-----$error----');
+    }
+  }
+
+  Widget loading(BuildContext context){
+    return Container(
+//      padding: EdgeInsets.only(left: 10),
+      width: 100,
+      height: 50,
+      child: Text('$errorInfo'),
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -98,50 +172,6 @@ class _LoginState extends State<Login> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-
-    HttpClient httpClient = HttpClient();
-    String userName;
-    String password;
-
-    void _login() async{
-      String url = 'https://gateway-mobile.wyawds.com/api/material-app/material-login.json';
-      var deviceInfo = DeviceInfoPlugin();
-      var iosInfo = await deviceInfo.iosInfo;
-
-      Map params = {
-      'mobile': '17858629460',
-      'pwd': '123456',
-      'device_token': '',
-      'device_type': 1,
-      'timestamp': '${((DateTime.now().millisecondsSinceEpoch) / 1000).toInt()}',
-      'nonce_str': getRandomNumber(32),
-      };
-      
-      try {
-        String str = paramsCompare(params);
-        print('-----str----$str-----');
-        var baseOption = BaseOptions(
-            headers: {
-              'version' : '1.0.5',
-              'platform' : 'ios13.1',
-              'sign' : str,
-            },
-          contentType: "application/json",
-          responseType: ResponseType.plain,
-        );
-        var response = await Dio(baseOption).post(
-            url,
-            data: params,
-        );
-        print(response.data);
-        LoginEntity loginModel = json.decode(response.data);
-        print(loginModel.msg);
-//        print(json.decode(response.data));
-
-      } catch (error) {
-        print('error-----$error----');
-      }
-    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -187,7 +217,7 @@ class _LoginState extends State<Login> {
                       disabledColor: Colors.grey,
                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
                       onPressed: () {
-                        _login();
+                        _checkLoginInfo();
 //                        Navigator.push(
 //                          context,
 //                          MaterialPageRoute(
@@ -198,6 +228,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
+
               ],
             ),
           ],
