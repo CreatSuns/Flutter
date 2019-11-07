@@ -29,38 +29,40 @@ class _RootWidgetState extends State<RootWidget> {
   @override
   Widget build(BuildContext context) {
     initData();
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Image(image: AssetImage('images/icon_shouye.png')),
-            activeIcon: Image(
-              image: AssetImage('images/icon_shouye_press.png'),
+    return MaterialApp(
+      home: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: Image(image: AssetImage('images/icon_shouye.png')),
+              activeIcon: Image(
+                image: AssetImage('images/icon_shouye_press.png'),
+              ),
+              title: Text('首页'),
             ),
-            title: Text('首页'),
-          ),
-          BottomNavigationBarItem(
-            icon: Image(image: AssetImage('images/icon_sucai.png')),
-            activeIcon: Image(image: AssetImage('images/icon_sucai_press.png')),
-            title: Text('素材'),
-          ),
-          BottomNavigationBarItem(
-            icon: Image(image: AssetImage('images/icon_me.png')),
-            activeIcon: Image(image: AssetImage('images/icon_me_press.png')),
-            title: Text('素材'),
-          ),
-        ],
-        onTap: changeIndex,
-        currentIndex: currentIndex,
-        backgroundColor: Colors.white,
+            BottomNavigationBarItem(
+              icon: Image(image: AssetImage('images/icon_sucai.png')),
+              activeIcon: Image(image: AssetImage('images/icon_sucai_press.png')),
+              title: Text('素材'),
+            ),
+            BottomNavigationBarItem(
+              icon: Image(image: AssetImage('images/icon_me.png')),
+              activeIcon: Image(image: AssetImage('images/icon_me_press.png')),
+              title: Text('素材'),
+            ),
+          ],
+          onTap: changeIndex,
+          currentIndex: currentIndex,
+          backgroundColor: Colors.white,
 //        elevation: 10.0,
 //        type: BottomNavigationBarType.fixed,
 //      fixedColor: Colors.red,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        iconSize: 20,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          iconSize: 20,
+        ),
+        body: _body,
       ),
-      body: _body,
     );
   }
 }

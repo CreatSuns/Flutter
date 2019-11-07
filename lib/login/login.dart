@@ -217,13 +217,8 @@ class _LoginState extends State<Login> {
                       disabledColor: Colors.grey,
                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
                       onPressed: () {
-                        _checkLoginInfo();
-//                        Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (context) => RootWidget(),
-//                          ),
-//                        );
+//                        _checkLoginInfo();
+                        runApp(RootWidget());
                       },
                     ),
                   ),
