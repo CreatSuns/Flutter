@@ -178,7 +178,7 @@ class _LoginState extends State<Login> {
         child: Stack(
           children: <Widget>[
             Opacity(
-              opacity: 0.4,
+              opacity:0.3,
               child: Image(
                 image: AssetImage('images/750-1334.png'),
                 width: width,
@@ -375,7 +375,7 @@ class _UserAgreementWidgetState extends State<UserAgreementWidget> {
               TextSpan(
                 text: '《云素材软件许可及服务协议》',
                 style: TextStyle(
-                  color: Colors.red,
+                  color: Colors.grey,
                   fontSize: 12,
                 ),
                 recognizer: null,
