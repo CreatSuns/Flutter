@@ -1,100 +1,34 @@
-import 'dart:collection';
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 
-import 'package:convert/convert.dart';
-import 'package:crypto/crypto.dart';
-import 'package:device_info/device_info.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_material/CustomWidget/CustomWidget.dart';
-import 'package:flutter_material/Root/RootWidget.dart';
+import 'package:flutter_material/commons/Network.dart';
+import 'package:flutter_material/routes/ChooseProductLine.dart';
+import 'package:flutter_material/routes/RootWidget.dart';
 import 'package:flutter_material/models/login_entity.dart';
 import 'package:flutter_material/Until/localFile.dart';
 
 typedef GetInputText = Function(String text);
 
-class Login  extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-
-  static const platform = const MethodChannel('material.flutter.io/deviceToken');
-  String _deviceToken = '';
   String userName;
   String password;
-  bool isSelectUserProtocol;
+  bool isSelectUserProtocol = false;
   String errorInfo;
 
-  void _getDeviceToken() async {
-    String dt;
-    try {
-      final result = await platform.invokeMethod('getDviceTokenNative');
-      print("---- $result ---");
-      dt = result;
-    } on PlatformException catch (e) {
-      dt = 'token有误';
-    }
-    setState(() {
-      _deviceToken = dt;
-    });
-  }
-
-  String generateMd5(String data) {
-    var content = new Utf8Encoder().convert(data);
-    var digest = md5.convert(content);
-    // 这里其实就是 digest.toString()
-    return hex.encode(digest.bytes);
-  }
-
-  String getRandomNumber(int index) {
-    String alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    String left = '';
-    for (var i = 0; i < index; i++) {
-//    right = right + (min + (Random().nextInt(max - min))).toString();
-      left = left + alphabet[Random().nextInt(alphabet.length)];
-    }
-    return left;
-  }
-
-  String paramsCompare(Map params){
-    print('map-----$params----');
-    var list = params.keys.toList();
-      print(list);
-      list.sort();
-      print(list);
-
-      var valueList = List();
-      for (var key in list) {
-        valueList.add(params[key]);
-      }
-      print(valueList);
-
-      var resultList = List();
-      for (var i = 0; i < valueList.length; i++) {
-        var key = list[i];
-        var value = valueList[i];
-        if (value is List) {
-          print('参数为数组');
-        } else {
-          resultList.add('$key=$value');
-        }
-      }
-      String result = '${resultList.join('&')}il3qTF7xaXLsiXff4YqYCeNrsI9Ne3ev';
-      print('result====$result======');
-      return generateMd5(result);
-  }
-
-  void _checkLoginInfo(){
+  bool _checkLoginInfo(BuildContext context) {
     print('开始');
     if (userName != null && password != null && isSelectUserProtocol == true) {
       print('开始1');
-      _login();
+      return true;
     } else {
       if (userName == null || password == null) {
         print('开始2');
@@ -107,68 +41,73 @@ class _LoginState extends State<Login> {
           errorInfo = '需要勾选用户协议';
         });
       }
+      Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          errorInfo = null;
+        });
+      });
+      return false;
     }
-
   }
 
-  void _login() async{
-    String url = 'https://gateway-mobile.wyawds.com/api/material-app/material-login.json';
-    var deviceInfo = DeviceInfoPlugin();
-    var iosInfo = await deviceInfo.iosInfo;
-
-    Map params = {
-      'mobile': '$userName',
-      'pwd': '$password',
-      'device_token': '',
-      'device_type': 1,
-      'timestamp': '${((DateTime.now().millisecondsSinceEpoch) / 1000).toInt()}',
-      'nonce_str': getRandomNumber(32),
+  void _login() {
+    Map<String, dynamic> params = {
+      'mobile': userName,
+      'pwd': password,
     };
 
     try {
-      String str = paramsCompare(params);
-      print('-----str----$str-----');
-      var baseOption = BaseOptions(
-        headers: {
-          'version' : '1.0.5',
-          'platform' : 'ios13.1',
-          'sign' : str,
-        },
-        contentType: "application/json",
-        responseType: ResponseType.plain,
-      );
-      var response = await Dio(baseOption).post(
-        url,
-        data: params,
-      );
-      print(response.data);
-      LoginEntity loginModel = LoginEntity.fromJson(json.decode(response.data));
-      localSave('access_token', loginModel.data.accessToken);
+      HttpQuerery.post('api/material-app/material-login.json', data: params,
+          success: (data) {
+        print('data=======$data=======');
+        LoginEntity loginModel = LoginEntity.fromJson(json.decode(data));
+        localSave('access_token', loginModel.data.accessToken);
+        Navigator.of(context).pop();
+        if (loginModel.data.agent.length > 1) {
+          // 选择产品线
+          Navigator.of(context).pushNamed('productLine', arguments: loginModel.data.agent);
+        } else {
+          // 直接进入登录界面
+          runApp(RootWidget());
+        }
 
+      }, error: (string) {
+            print('errorString-----$string----');
+      });
     } catch (error) {
       print('error-----$error----');
+
     }
   }
 
-  Widget loading(BuildContext context){
-    return Container(
-//      padding: EdgeInsets.only(left: 10),
-      width: 100,
-      height: 50,
-      child: Text('$errorInfo'),
-    );
+  Future showLoginProgress(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 26.0),
+                  child: Text("正在登录，请稍后..."),
+                )
+              ],
+            ),
+          );
+        });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-//    _getDeviceToken();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
@@ -178,7 +117,7 @@ class _LoginState extends State<Login> {
         child: Stack(
           children: <Widget>[
             Opacity(
-              opacity:0.3,
+              opacity: 0.3,
               child: Image(
                 image: AssetImage('images/750-1334.png'),
                 width: width,
@@ -193,7 +132,7 @@ class _LoginState extends State<Login> {
                   title: '手机号码',
                   placeholder: '请输入手机号',
                   bottomPadding: 30,
-                  textBuild: (text){
+                  textBuild: (text) {
                     userName = text;
                   },
                 ),
@@ -201,11 +140,18 @@ class _LoginState extends State<Login> {
                   title: '密码',
                   placeholder: '请输入密码',
                   bottomPadding: 10,
-                  textBuild: (text){
+                  textBuild: (text) {
                     password = text;
                   },
                 ),
-                UserAgreementWidget(),
+                UserAgreementWidget(
+                  select: isSelectUserProtocol,
+                  changeUserProtocol: (change) {
+                    setState(() {
+                      isSelectUserProtocol = change;
+                    });
+                  },
+                ),
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: SizedBox(
@@ -217,14 +163,34 @@ class _LoginState extends State<Login> {
                       disabledColor: Colors.grey,
                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
                       onPressed: () {
-//                        _checkLoginInfo();
-                        runApp(RootWidget());
+                        var pass = _checkLoginInfo(context);
+                        if (pass == true) {
+                          showLoginProgress(context);
+                          _login();
+                        }
                       },
                     ),
                   ),
                 ),
-
               ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: height * 3 / 4),
+              child: Center(
+                child: Opacity(
+                  opacity: 1,
+                  child: Container(
+                    width: 200,
+                    height: 40,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: errorInfo == null ? null : Colors.red,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(errorInfo == null ? '' : '$errorInfo'),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -232,7 +198,6 @@ class _LoginState extends State<Login> {
     );
   }
 }
-
 
 class LoginTitle extends StatelessWidget {
   @override
@@ -289,9 +254,9 @@ class _InputWidgetState extends State<InputWidget> {
   @override
   void initState() {
     // TODO: implement initState
-    focusNode.addListener((){
+    focusNode.addListener(() {
       setState(() {
-        if(!focusNode.hasFocus) {
+        if (!focusNode.hasFocus) {
           showMis = false;
         } else {
           showMis = true;
@@ -339,21 +304,26 @@ class _InputWidgetState extends State<InputWidget> {
       ),
     );
   }
-}
 
-class UserAgreementWidget extends StatefulWidget {
   @override
-  _UserAgreementWidgetState createState() => _UserAgreementWidgetState();
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    vc.dispose();
+  }
 }
 
-class _UserAgreementWidgetState extends State<UserAgreementWidget> {
-  var select = false;
+typedef ChangeUserProtocol = Function(bool change);
 
-  void changeState(bool value) {
-    setState(() {
-      select = value;
-    });
-  }
+class UserAgreementWidget extends StatelessWidget {
+  UserAgreementWidget({
+    Key key,
+    this.select = false,
+    this.changeUserProtocol,
+  }) : super(key: key);
+
+  bool select;
+  ChangeUserProtocol changeUserProtocol;
 
   @override
   Widget build(BuildContext context) {
@@ -363,7 +333,7 @@ class _UserAgreementWidgetState extends State<UserAgreementWidget> {
         children: <Widget>[
           RoundCheckBox(
             value: select,
-            onChanged: changeState,
+            onChanged: changeUserProtocol,
           ),
           Text.rich(TextSpan(
             children: [

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_material/Home/Home.dart';
-import 'package:flutter_material/Material/Material.dart';
-import 'package:flutter_material/Mine/Mine.dart';
+import 'package:flutter_material/routes/Home.dart';
+import 'package:flutter_material/routes/Material.dart';
+import 'package:flutter_material/routes/Mine.dart';
 
 class RootWidget extends StatefulWidget {
   @override
