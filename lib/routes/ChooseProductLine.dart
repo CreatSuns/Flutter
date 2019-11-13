@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_material/commons/Network.dart';
 import 'package:flutter_material/models/login_entity.dart';
 import 'package:flutter_material/routes/RootWidget.dart';
 
@@ -17,6 +18,22 @@ class ChooseProductLine extends StatefulWidget {
 class _ChooseProductLineState extends State<ChooseProductLine> {
 
   int selectIndex;
+
+  void login() {
+    LoginDataAgent agent = widget.agents[selectIndex];
+    HttpQuerery.post(
+      'material/account/set-admin-info.json',
+      data: {
+        'admin_id' : agent.adminId,
+      },
+      success: (data) {
+        runApp(RootWidget());
+      },
+      error: (errorString) {
+
+      }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +54,7 @@ class _ChooseProductLineState extends State<ChooseProductLine> {
                   setState(() {
                     selectIndex = index;
                   });
-                  Future.delayed(Duration(seconds: 1),(){
-                    runApp(RootWidget());
-                  });
+                  login();
                 },
               );
           },
