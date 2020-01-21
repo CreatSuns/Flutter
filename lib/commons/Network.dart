@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter_material/Until/localFile.dart';
 import 'package:package_info/package_info.dart';
 
 class BaseUrl {
@@ -125,7 +126,8 @@ class HttpQuerery {
     }
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
+    var token = await localGet('access_token');
+    print('token==$token===');
     try {
       Map<String, dynamic> params = {
         'device_token': '',
@@ -140,6 +142,10 @@ class HttpQuerery {
         'platform': platformName + platformVersion,
         'sign': paramsCompare(params),
       };
+
+      if (token != null) {
+        httpHeader['token'] = token;
+      }
 
       if (headers != null) {
         httpHeader.addAll(headers);

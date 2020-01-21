@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_material/CustomWidget/CustomWidget.dart';
 import 'package:flutter_material/commons/Network.dart';
-import 'package:flutter_material/routes/ChooseProductLine.dart';
 import 'package:flutter_material/routes/RootWidget.dart';
 import 'package:flutter_material/models/login_entity.dart';
 import 'package:flutter_material/Until/localFile.dart';
