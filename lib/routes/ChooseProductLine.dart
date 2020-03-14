@@ -21,7 +21,7 @@ class _ChooseProductLineState extends State<ChooseProductLine> {
 
   void login() {
     LoginDataAgent agent = widget.agents[selectIndex];
-    11HttpQuerery.post(
+    HttpQuerery.post(
       'material/account/set-admin-info.json',
       data: {
         'admin_id' : agent.adminId,

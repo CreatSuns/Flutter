@@ -5,17 +5,18 @@ typedef HeaderWidgetBuild = Widget Function(BuildContext context, int position);
 typedef ItemWidgetBuild = Widget Function(BuildContext context, int position);
 
 class ListPage extends StatefulWidget {
+  ListPage(
+      this.listData,
+      {Key key,
+        this.headerList,
+        this.itemWidgetCreator,
+        this.headerCreator})
+      : super(key: key);
+
   List headerList;
   List listData;
   ItemWidgetBuild itemWidgetCreator;
   HeaderWidgetBuild headerCreator;
-
-  ListPage(List this.listData,
-      {Key key,
-        List this.headerList,
-        ItemWidgetBuild this.itemWidgetCreator,
-        HeaderWidgetBuild this.headerCreator})
-      : super(key: key);
 
   @override
   ListPageState createState() {
@@ -27,12 +28,11 @@ class ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.only(top: 0),
+        padding: EdgeInsets.only(top: 0),
         itemBuilder: (BuildContext context, int position) {
           return buildItemWidget(context, position);
         },
-        itemCount: _getListCount()
-    );
+        itemCount: _getListCount());
   }
 
   int _getListCount() {

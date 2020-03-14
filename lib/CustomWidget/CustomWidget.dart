@@ -22,7 +22,7 @@ class _RoundCheckBoxState extends State<RoundCheckBox> {
             widget.onChanged(widget.value);
           },
           child: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(0.0),
             child: widget.value
                 ? Icon(
                     Icons.check_circle,
