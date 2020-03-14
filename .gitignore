@@ -64,7 +64,10 @@
 **/ios/Flutter/flutter_export_environment.sh
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
-
+/ios/podfile.lock
+/ios/Runner.xcodeproj.project.pbxproj
+/pubspec/lock
+/.flutter-plugins-dependencies
 # Web related
 lib/generated_plugin_registrant.dart
 
