@@ -118,7 +118,7 @@ class _RootWidgetState extends State<RootWidget> {
             BottomNavigationBarItem(
               icon: Image(image: AssetImage('images/icon_me.png')),
               activeIcon: Image(image: AssetImage('images/icon_me_press.png')),
-              title: Text('素材'),
+              title: Text('我的'),
             ),
           ],
           onTap: changeIndex,
