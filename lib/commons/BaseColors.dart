@@ -34,4 +34,10 @@ class BaseColors {
 
   ///纯黑色
   static Color colorBlack = Color.fromARGB(255, 0, 0, 0);
+
+  ///分享商文字颜色
+  static Color colorGray = Color.fromARGB(255, 159, 172, 194);
+
+  ///公告通知全部标记文字颜色
+  static Color color576B95 = Color.fromARGB(255, 87, 107, 149);
 }

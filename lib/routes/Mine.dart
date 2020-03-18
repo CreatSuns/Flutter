@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/commons/BaseColors.dart';
 
+import 'Notices.dart';
+import 'Setting.dart';
+
 class Mine extends StatefulWidget {
   @override
   _MineState createState() => _MineState();
@@ -9,20 +12,18 @@ class Mine extends StatefulWidget {
 class _MineState extends State<Mine> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: Text('个人中心'),
           backgroundColor: BaseColors.colorTheme,
           elevation: 0,
-          //去掉Appbar底部阴影
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.settings),
-              tooltip: "Alarm",
               onPressed: () {
-                print("Alarm");
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Setting()));
               },
             ),
           ],
@@ -30,7 +31,6 @@ class _MineState extends State<Mine> {
         body: Container(
           child: MineBody(),
         ),
-      ),
     );
   }
 }
@@ -85,52 +85,196 @@ class MineBody extends StatelessWidget {
               Center(
                 child: Column(
                   children: <Widget>[
-                    CircleAvatar(
-                      //分析 3
-                      backgroundImage:
-                      new AssetImage('images/pic_dongtaitouxiang.png'),
-                      radius: 40.0,
+                    Container(
+                      margin: const EdgeInsets.only(top: 22),
+                      child: CircleAvatar(
+                        //分析 3
+                        backgroundImage:
+                            new AssetImage('images/pic_dongtaitouxiang.png'),
+                        radius: 40.0,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        "毛春江",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          "联创",
+                          style: TextStyle(
+                              fontSize: 12, color: BaseColors.colorGray),
+                        ),
+                        Text(
+                          "  |  ",
+                          style: TextStyle(
+                              fontSize: 12, color: BaseColors.colorGray),
+                        ),
+                        Text(
+                          "分享商",
+                          style: TextStyle(
+                              fontSize: 12, color: BaseColors.colorGray),
+                        ),
+                      ],
                     ),
                   ],
-                ) ,
+                ),
               ),
             ],
           ),
         ),
-        RaisedButton(
-          child: Text("下一页"),
-          onPressed: () {},
+        SizedBox(
+          height: 100,
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: BaseColors.colorWhite),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0)),
+                    color: BaseColors.colorWhite,
+                    elevation: 0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image(
+                          image: AssetImage('images/icon_mycollection.png'),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          child: Text(
+                            "我的收藏",
+                            style: TextStyle(fontSize: 14, color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                Expanded(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0)),
+                    color: BaseColors.colorWhite,
+                    elevation: 0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image(
+                          image: AssetImage('images/icon_mycollection.png'),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          child: Text(
+                            "我的创建",
+                            style: TextStyle(fontSize: 14, color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                Expanded(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                    color: BaseColors.colorWhite,
+                    elevation: 0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image(
+                          image: AssetImage('images/icon_mycollection.png'),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          child: Text(
+                            "互动消息",
+                            style: TextStyle(fontSize: 14, color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        RaisedButton(
-          child: Text("主题色"),
-          onPressed: () {},
-        ),
-        RaisedButton(
-          child: Text("异步UI"),
-          onPressed: () {},
-        ),
-        RaisedButton(
-          child: Text("原始指针事件处理"),
-          onPressed: () {},
-        ),
-        RaisedButton(
-          child: Text("自会组件"),
-          onPressed: () {},
-        ),
-        RaisedButton(
-          child: Text("自绘圆形组件"),
-          onPressed: () {},
-        ),
-        RaisedButton(
-          child: Text("文件操作"),
-          onPressed: () {},
-        ),
-        RaisedButton(
-          child: Text("网络请求"),
-          onPressed: () {
-//              Navigator.push(context,
-//                  MaterialPageRoute(builder: (context) => HttpTestRoute()));
-          },
+        Column(
+          children: <Widget>[
+            Container(
+              height: 8,
+            ),
+            SizedBox(
+              height: 50,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0)),
+                color: BaseColors.colorWhite,
+                elevation: 0,
+                child: Row(
+                  children: <Widget>[
+                    Image(
+                      image: AssetImage('images/icon_notify.png'),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      child: Text(
+                        "公告通知",
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Notices()));
+                },
+              ),
+            ),
+            Container(
+              height: 1,
+            ),
+            SizedBox(
+              height: 50,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0)),
+                color: BaseColors.colorWhite,
+                elevation: 0,
+                child: Row(
+                  children: <Widget>[
+                    Image(
+                      image: AssetImage('images/icon_notify.png'),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      child: Text(
+                        "产品线",
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ],
         ),
       ],
     );
