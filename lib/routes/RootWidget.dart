@@ -5,6 +5,7 @@ import 'package:flutter_material/routes/Home.dart';
 import 'package:flutter_material/routes/Material.dart';
 import 'package:flutter_material/routes/Mine.dart';
 import 'package:flutter_material/routes/SendDynamic.dart';
+import 'package:flutter_material/routes/UserAgentRoute.dart';
 
 class RootWidget extends StatefulWidget {
   @override
@@ -34,6 +35,7 @@ class _RootWidgetState extends State<RootWidget> {
     return MaterialApp(
       routes: {
         'sendDynamic':(context) => SendDynamic(),
+        'userAgent':(context) => UserAgentRoute(),
       },
       home: Scaffold(
         floatingActionButton: Builder(builder: (context) {

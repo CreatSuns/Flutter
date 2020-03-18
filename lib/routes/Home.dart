@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/ConstantFile.dart';
+import 'package:flutter_material/CustomWidget/ImagePreview.dart';
 import 'package:flutter_material/CustomWidget/ListPage.dart';
+import 'package:wya_table_widget/table.dart';
 import 'package:flutter_material/Until/localFile.dart';
 import 'package:flutter_material/commons/Network.dart';
 
@@ -24,6 +26,54 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget tableHeaderView(){
+    return SizedBox(
+      height: 260,
+      child: Stack(
+        alignment: AlignmentDirectional.topCenter,
+        children: <Widget>[
+          SizedBox(
+            height: 260,
+            child: Image(
+              image: AssetImage('images/icon_bg_white.png'),
+              fit: BoxFit.fill,
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 200,
+            child: Image(
+              image: AssetImage('images/pic_shouyebackground.png'),
+              fit: BoxFit.fill,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Text(
+              '首页',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 250, top: 150),
+            child: IconButton(
+              iconSize: 80,
+              icon: Image.asset(
+                'images/pic_dongtaitouxiang.png',
+                fit: BoxFit.fill,
+                width: 80,
+                height: 80,
+              ),
+              onPressed: null,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -38,71 +88,16 @@ class _HomeState extends State<Home> {
 //        future: ,
 //        initialData: ,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return ListPage(
-            [
-              'a',
-              'b',
-              'c',
-            ],
-            headerList: ['1'],
-            itemWidgetCreator: (BuildContext context, int position) {
-              return HomeCell(
-                index: position,
-              );
+          return TableView(
+            tableHeaderView: tableHeaderView(),
+            sectionNumber: 2,
+            numberRowOfSection: (BuildContext context, int index){
+              return 5;
             },
-            headerCreator: (BuildContext context, int position) {
-              if (position == 0) {
-                return SizedBox(
-                  height: 260,
-                  child: Stack(
-                    alignment: AlignmentDirectional.topCenter,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 260,
-                        child: Image(
-                          image: AssetImage('images/icon_bg_white.png'),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 200,
-                        child: Image(
-                          image: AssetImage('images/pic_shouyebackground.png'),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Text(
-                          '首页',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 250, top: 150),
-                        child: IconButton(
-                          iconSize: 80,
-                          icon: Image.asset(
-                            'images/pic_dongtaitouxiang.png',
-                            fit: BoxFit.fill,
-                            width: 80,
-                            height: 80,
-                          ),
-                          onPressed: null,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return new Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('$position -----header------- '),
-                );
-              }
+            rowView: (BuildContext context, int section, int row){
+              return HomeCell(
+                index: row,
+              );
             },
           );
         },
@@ -129,7 +124,7 @@ class _HomeCellState extends State<HomeCell> {
 
   bool isOpen = false;
 
-  Widget titleContainer() {
+  Widget titleContainer(BuildContext context) {
     return Row(
       children: <Widget>[
         Padding(
@@ -140,7 +135,9 @@ class _HomeCellState extends State<HomeCell> {
             child: IconButton(
               padding: EdgeInsets.all(0),
               icon: Image.asset('images/icon_person_placehold.png'),
-              onPressed: () {},
+              onPressed: () {
+                goUserRoute(context);
+              },
             ),
           ),
         ),
@@ -234,12 +231,52 @@ class _HomeCellState extends State<HomeCell> {
     );
   }
 
-  Widget imagesContainer() {
+  Widget imagesContainer(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 40, right: 50, top: 20, bottom: 10),
       child: Wrap(
         spacing: 5,
-        children: imageArr,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              changeRoute(context);
+            },
+            child: SizedBox(
+              width: imageWidth,
+              height: imageWidth,
+              child: Image(
+                image: AssetImage('images/home_1.png'),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              changeRoute(context);
+            },
+            child: SizedBox(
+              width: imageWidth,
+              height: imageWidth,
+              child: Image(
+                image: AssetImage('images/home_2.png'),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              changeRoute(context);
+            },
+            child: SizedBox(
+              width: imageWidth,
+              height: imageWidth,
+              child: Image(
+                image: AssetImage('images/home_3.png'),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -299,39 +336,6 @@ class _HomeCellState extends State<HomeCell> {
     );
   }
 
-  void initData(BuildContext context) {
-    var width = getScreenWidth(context);
-    print(width);
-    imageWidth = (width - 130) / 3;
-    print(imageWidth);
-    imageArr = <Widget>[
-      SizedBox(
-        width: imageWidth,
-        height: imageWidth,
-        child: Image(
-          image: AssetImage('images/home_1.png'),
-          fit: BoxFit.fill,
-        ),
-      ),
-      SizedBox(
-        width: imageWidth,
-        height: imageWidth,
-        child: Image(
-          image: AssetImage('images/home_2.png'),
-          fit: BoxFit.fill,
-        ),
-      ),
-      SizedBox(
-        width: imageWidth,
-        height: imageWidth,
-        child: Image(
-          image: AssetImage('images/home_3.png'),
-          fit: BoxFit.fill,
-        ),
-      ),
-    ];
-  }
-
   Widget commentWidget(){
     return Container(
       margin: EdgeInsets.only(bottom: 10),
@@ -343,7 +347,7 @@ class _HomeCellState extends State<HomeCell> {
         children: <Widget>[
           Text('张三：aaa'),
           Text('李四：bbb'),
-          Text('王五：¸ccc'),
+          Text('王五：ccc'),
         ],
       )
     );
@@ -351,18 +355,35 @@ class _HomeCellState extends State<HomeCell> {
 
   @override
   Widget build(BuildContext context) {
-    initData(context);
+    var width = getScreenWidth(context);
+    imageWidth = (width - 130) / 3;
     return Container(
         color: Colors.white,
         padding: EdgeInsets.only(top: 10),
         child: Column(
           children: <Widget>[
-            titleContainer(),
+            titleContainer(context),
             contentContainer(),
-            imagesContainer(),
+            imagesContainer(context),
             actionContainer(),
             commentWidget(),
           ],
         ));
   }
+
+  void changeRoute(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (BuildContext context) {
+          return ImagePreview(
+            initialIndex: 0,
+            items: ['images/home_1.png','images/home_2.png','images/home_3.png'],
+          );
+      })
+    );
+  }
+
+  void goUserRoute(BuildContext context) {
+    Navigator.of(context).pushNamed('userAgent');
+  }
 }
+
