@@ -17,8 +17,10 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  wya_table_widget:
-    path: /Users/lishihang/Desktop/GitProject/Flutter/wya_table_widget
+  tableview:
+    git:
+      url: https://github.com/wya-team/flutter_wya.git
+      path: flutter_widgets/tableview
 
   flutter:
     sdk: flutter

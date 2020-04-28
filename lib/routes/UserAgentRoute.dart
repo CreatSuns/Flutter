@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wya_table_widget/table.dart';
+import 'package:tableview/tableview.dart';
 
 class UserAgentRoute extends StatefulWidget {
   @override

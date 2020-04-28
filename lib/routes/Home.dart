@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material/ConstantFile.dart';
 import 'package:flutter_material/CustomWidget/ImagePreview.dart';
 import 'package:flutter_material/CustomWidget/ListPage.dart';
-import 'package:wya_table_widget/table.dart';
+import 'package:tableview/tableview.dart';
 import 'package:flutter_material/Until/localFile.dart';
 import 'package:flutter_material/commons/Network.dart';
 
