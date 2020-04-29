@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 
 class SendDynamic extends StatefulWidget {
   @override
@@ -11,10 +11,10 @@ class _SendDynamicState extends State<SendDynamic> {
   List<Widget> images = [];
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      images.add(Image.file(image));
-    });
+//    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+//    setState(() {
+//      images.add(Image.file(image));
+//    });
   }
 
   @override

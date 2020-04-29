@@ -15,9 +15,6 @@ class BaseUrl {
   static const String url = 'https://gateway-mobile.wyawds.com/';
 }
 
-typedef SuccessCallBack = Function(Object data);
-typedef FailCallBack = Function(String errorDescription);
-
 class HttpQuerery {
 
   static String generateMd5(String data) {
@@ -70,11 +67,9 @@ class HttpQuerery {
     return generateMd5(result);
   }
 
-  static void get(String url,
+  static Future get(String url,
       {Map<String, dynamic> data,
-      Map<String, dynamic> headers,
-      SuccessCallBack success,
-      FailCallBack error}) async {
+      Map<String, dynamic> headers}) async {
     // 数据拼接
     if (data != null && data.isNotEmpty) {
       StringBuffer options = new StringBuffer('?');
@@ -87,24 +82,21 @@ class HttpQuerery {
     }
 
     // 发送get请求
-    await _sendRequest(url, 'get', success, headers: headers, error: error);
+    return await _sendRequest(url, 'get', headers: headers);
   }
 
-  static void post(String url,
+  static Future post(String url,
       {Map<String, dynamic> data,
-      Map<String, dynamic> headers,
-      SuccessCallBack success,
-      FailCallBack error}) async {
+      Map<String, dynamic> headers}) async {
     // 发送post请求
-    _sendRequest(url, 'post', success,
-        data: data, headers: headers, error: error);
+    return await _sendRequest(url, 'post',
+        data: data, headers: headers);
   }
 
   // 请求处理
-  static Future _sendRequest(String url, String method, SuccessCallBack success,
+  static Future _sendRequest(String url, String method,
       {Map<String, dynamic> data,
-      Map<String, dynamic> headers,
-      FailCallBack error}) async {
+      Map<String, dynamic> headers}) async {
     int _code;
     String _msg;
     var _backData;
@@ -179,11 +171,10 @@ class HttpQuerery {
         response = await dio.post(url, data: params);
       }
       print('response===$response====');
-      if (response.statusCode != 200) {
-        _msg = '网络请求错误,状态码:' + response.statusCode.toString();
-        error(_msg);
-        return;
-      }
+//      if (response.statusCode != 200) {
+//        _msg = '网络请求错误,状态码:' + response.statusCode.toString();
+//        return _msg;
+//      }
 
       // 返回结果处理
 //      Map<String, dynamic> resCallbackMap = response.data;
@@ -191,10 +182,10 @@ class HttpQuerery {
 //      _msg = resCallbackMap['msg'];
 //      _backData = resCallbackMap['data'];
 
-      success(response.data);
+      return response.data;
 
     } catch (exception) {
-      error('数据请求错误：' + exception.toString());
+      return '数据请求错误：' + exception.toString();
     }
   }
 }

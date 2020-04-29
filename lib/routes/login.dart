@@ -75,6 +75,7 @@ class _LoginState extends State<Login> {
       'pwd': password,
     };
     var model = await LoginNetWorkQuery.login(params);
+    print(model);
     Navigator.of(context).pop();
     if (model == null) {
 

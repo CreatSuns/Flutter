@@ -13,17 +13,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   void homeData() {
-    HttpQuerery.get(
-      'material/agent-circle/get-list.json',
-      data: {
-        'circle_pass_id': 0,
-        'pageSize': 10,
-      },
-      success: (data) {
-        print('data===$data===');
-      },
-      error: (error) {},
-    );
+//    HttpQuerery.get(
+//      'material/agent-circle/get-list.json',
+//      data: {
+//        'circle_pass_id': 0,
+//        'pageSize': 10,
+//      },
+//      success: (data) {
+//        print('data===$data===');
+//      },
+//      error: (error) {},
+//    );
   }
 
   Widget tableHeaderView(){
