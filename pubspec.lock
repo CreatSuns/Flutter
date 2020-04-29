@@ -7,42 +7,51 @@ packages:
       name: archive
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.13"
+    version: "2.0.11"
   args:
     dependency: transitive
     description:
       name: args
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.6.0"
+    version: "1.5.2"
   async:
     dependency: transitive
     description:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.0"
   boolean_selector:
     dependency: transitive
     description:
       name: boolean_selector
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "1.0.5"
+  cache:
+    dependency: "direct main"
+    description:
+      path: "flutter_untils/cache"
+      ref: HEAD
+      resolved-ref: "721719702cfc9ac1c1b1d45329ed0c7e2219bf22"
+      url: "https://github.com/wya-team/flutter_wya.git"
+    source: git
+    version: "0.0.1"
   charcode:
     dependency: transitive
     description:
       name: charcode
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.3"
+    version: "1.1.2"
   collection:
     dependency: transitive
     description:
       name: collection
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.14.12"
+    version: "1.14.11"
   connectivity:
     dependency: "direct main"
     description:
@@ -63,28 +72,44 @@ packages:
       name: crypto
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.3"
   cupertino_icons:
     dependency: "direct main"
     description:
       name: cupertino_icons
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.2"
+    version: "0.1.3"
   device_info:
     dependency: "direct main"
     description:
       name: device_info
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.1+1"
+    version: "0.4.2+2"
   dio:
     dependency: "direct main"
     description:
       name: dio
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.4"
+    version: "3.0.9"
+  extended_image:
+    dependency: transitive
+    description:
+      path: "flutter_widgets/extended_image-master"
+      ref: HEAD
+      resolved-ref: "721719702cfc9ac1c1b1d45329ed0c7e2219bf22"
+      url: "https://github.com/wya-team/flutter_wya.git"
+    source: git
+    version: "0.7.2"
+  extended_image_library:
+    dependency: transitive
+    description:
+      name: extended_image_library
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -96,33 +121,61 @@ packages:
       name: flutter_plugin_android_lifecycle
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.7"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.12.1"
+  http_client_helper:
+    dependency: transitive
+    description:
+      name: http_client_helper
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.1"
   http_parser:
     dependency: transitive
     description:
       name: http_parser
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.1.3"
+    version: "3.1.4"
   image:
     dependency: transitive
     description:
       name: image
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.12"
+    version: "2.1.4"
   image_picker:
     dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.6.3+4"
+    version: "0.6.5+2"
+  image_preview:
+    dependency: "direct main"
+    description:
+      path: "flutter_widgets/image_preview"
+      ref: HEAD
+      resolved-ref: "721719702cfc9ac1c1b1d45329ed0c7e2219bf22"
+      url: "https://github.com/wya-team/flutter_wya.git"
+    source: git
+    version: "0.0.1"
   matcher:
     dependency: transitive
     description:
@@ -143,7 +196,7 @@ packages:
       name: package_info
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.0+10"
+    version: "0.4.0+17"
   path:
     dependency: transitive
     description:
@@ -151,6 +204,34 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.6.4"
+  path_provider:
+    dependency: transitive
+    description:
+      name: path_provider
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.6.7"
+  path_provider_macos:
+    dependency: transitive
+    description:
+      name: path_provider_macos
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.4+1"
+  path_provider_platform_interface:
+    dependency: transitive
+    description:
+      name: path_provider_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.8.0+1"
   petitparser:
     dependency: transitive
     description:
@@ -158,27 +239,55 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.4.0"
-  photo_view:
-    dependency: "direct main"
+  platform:
+    dependency: transitive
     description:
-      name: photo_view
+      name: platform
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.9.2"
+    version: "2.2.1"
+  plugin_platform_interface:
+    dependency: transitive
+    description:
+      name: plugin_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.2"
   quiver:
     dependency: transitive
     description:
       name: quiver
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.3"
+    version: "2.0.5"
   shared_preferences:
     dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.5.4+3"
+    version: "0.5.7"
+  shared_preferences_macos:
+    dependency: transitive
+    description:
+      name: shared_preferences_macos
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1+7"
+  shared_preferences_platform_interface:
+    dependency: transitive
+    description:
+      name: shared_preferences_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.3"
+  shared_preferences_web:
+    dependency: transitive
+    description:
+      name: shared_preferences_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.2+4"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -190,7 +299,7 @@ packages:
       name: source_span
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.7.0"
+    version: "1.5.5"
   stack_trace:
     dependency: transitive
     description:
@@ -217,7 +326,7 @@ packages:
     description:
       path: "flutter_widgets/tableview"
       ref: HEAD
-      resolved-ref: "60c3c89185d225f65d6a10857a57c29ecc78ecac"
+      resolved-ref: "721719702cfc9ac1c1b1d45329ed0c7e2219bf22"
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"
@@ -234,7 +343,7 @@ packages:
       name: test_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.2.15"
+    version: "0.2.11"
   typed_data:
     dependency: transitive
     description:
@@ -255,7 +364,7 @@ packages:
       name: xml
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.6.1"
+    version: "3.5.0"
 sdks:
-  dart: ">=2.6.0 <3.0.0"
-  flutter: ">=1.12.13 <2.0.0"
+  dart: ">2.4.0 <3.0.0"
+  flutter: ">=1.12.13+hotfix.5 <2.0.0"

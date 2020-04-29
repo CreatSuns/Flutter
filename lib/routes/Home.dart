@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/ConstantFile.dart';
 import 'package:flutter_material/CustomWidget/ImagePreview.dart';
-import 'package:flutter_material/CustomWidget/ListPage.dart';
+
 import 'package:tableview/tableview.dart';
-import 'package:flutter_material/Until/localFile.dart';
+
 import 'package:flutter_material/commons/Network.dart';
 
 class Home extends StatefulWidget {
@@ -374,7 +374,7 @@ class _HomeCellState extends State<HomeCell> {
   void changeRoute(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (BuildContext context) {
-          return ImagePreview(
+          return ImagePreviewPage(
             initialIndex: 0,
             items: ['images/home_1.png','images/home_2.png','images/home_3.png'],
           );

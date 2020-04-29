@@ -1,1 +1,1 @@
-const String loginUrl = 'account/member/login';
+const String loginUrl = 'api/material-app/material-login.json';

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cache/sharepreferences_until.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'dart:math';
@@ -7,7 +8,6 @@ import 'dart:math';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:device_info/device_info.dart';
-import 'package:flutter_material/Until/localFile.dart';
 import 'package:package_info/package_info.dart';
 
 class BaseUrl {
@@ -41,9 +41,7 @@ class HttpQuerery {
   static String paramsCompare(Map params) {
     print('map-----$params----');
     var list = params.keys.toList();
-    print(list);
     list.sort();
-    print(list);
 
     var valueList = List();
     for (var key in list) {
@@ -58,7 +56,13 @@ class HttpQuerery {
       if (value is List) {
         print('参数为数组');
       } else {
-        resultList.add('$key=$value');
+        if (value is String) {
+          if(value.length > 0) {
+            resultList.add('$key=$value');
+          }
+        } else {
+          resultList.add('$key=$value');
+        }
       }
     }
     String result = '${resultList.join('&')}il3qTF7xaXLsiXff4YqYCeNrsI9Ne3ev';
@@ -111,31 +115,35 @@ class HttpQuerery {
     }
 
     var deviceInfo = DeviceInfoPlugin();
-    var platformName = '';
-    var platformVersion = '';
-    if (Platform.isIOS) {
-      var iosInfo = await deviceInfo.iosInfo;
-      platformName = iosInfo.systemName;
-      platformVersion = iosInfo.systemVersion;
-      print('iosInfo=====${iosInfo.utsname.machine}===');
-    } else if (Platform.isAndroid) {
-      var androidInfo = await deviceInfo.androidInfo;
-      platformName = 'android';
-      platformVersion = androidInfo.version.release;
-      print('androidInfo===$androidInfo====');
-    }
+    var platformName = 'ios';
+    var platformVersion = '13';
+//    if (Platform.isIOS) {
+//      var iosInfo = await deviceInfo.iosInfo;
+//      platformName = iosInfo.systemName;
+//      platformVersion = iosInfo.systemVersion;
+//      print('iosInfo=====${iosInfo.utsname.machine}===');
+//    } else if (Platform.isAndroid) {
+//      var androidInfo = await deviceInfo.androidInfo;
+//      platformName = 'android';
+//      platformVersion = androidInfo.version.release;
+//      print('androidInfo===$androidInfo====');
+//    }
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    var token = await localGet('access_token');
+    var token = await ShardPreferences.localGet('access_token');
     print('token==$token===');
     try {
       Map<String, dynamic> params = {
-        'device_token': '',
+        'device_token': "",
         'device_type': 1,
         'timestamp':
         '${((DateTime.now().millisecondsSinceEpoch) / 1000).toInt()}',
         'nonce_str': getRandomNumber(32),
       };
+
+      if (data != null) {
+        params.addAll(data);
+      }
 
       Map<String, dynamic> httpHeader = {
         'version': packageInfo.version,
@@ -151,9 +159,7 @@ class HttpQuerery {
         httpHeader.addAll(headers);
       }
 
-      if (data != null) {
-        params.addAll(data);
-      }
+
       print('requestHeader===$httpHeader====');
       print('requesParams===$params====');
 

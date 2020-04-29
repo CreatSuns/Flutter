@@ -1,15 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_material/CustomWidget/CustomWidget.dart';
-import 'package:flutter_material/commons/Network.dart';
-import 'package:flutter_material/commons/Urls.dart';
+import 'package:flutter_material/models/login_network_query.dart';
 import 'package:flutter_material/routes/RootWidget.dart';
-import 'package:flutter_material/models/login_entity.dart';
-import 'package:flutter_material/Until/localFile.dart';
 
 typedef GetInputText = Function(String text);
 
@@ -24,7 +18,7 @@ class _LoginState extends State<Login> {
   bool isSelectUserProtocol = false;
   String errorInfo;
 
-  bool _checkLoginInfo(BuildContext context) {
+  bool _checkLoginInfo() {
     print('开始');
     if (userName != null && password != null && isSelectUserProtocol == true) {
       print('开始1');
@@ -50,52 +44,50 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void _login() {
+  Future showLoginProgress(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              CircularProgressIndicator(),
+              Padding(
+                padding: const EdgeInsets.only(top: 26.0),
+                child: Text("正在登录，请稍后..."),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void goLogin(BuildContext context) async {
+    var pass = _checkLoginInfo();
+    if (pass == false) return;
+    showLoginProgress(context);
     Map<String, dynamic> params = {
+      'mobile_prefix' : '+86',
       'mobile': userName,
       'pwd': password,
     };
+    var model = await LoginNetWorkQuery.login(params);
+    Navigator.of(context).pop();
+    if (model == null) {
 
-//    try {
-//      HttpQuerery.post(loginUrl, data: params, success: (data) {
-//        print('data=======$data=======');
-//        LoginEntity loginModel = LoginEntity.fromJson(json.decode(data));
-//        localSave('access_token', loginModel.data.accessToken);
-//        Navigator.of(context).pop();
-//        if (loginModel.data.agent.length > 1) {
-//          // 选择产品线
-//          Navigator.of(context)
-//              .pushNamed('productLine', arguments: loginModel.data.agent);
-//        } else {
-//          // 直接进入登录界面
-    runApp(RootWidget());
-//        }
-//      }, error: (string) {
-//        print('errorString-----$string----');
-//      });
-//    } catch (error) {
-//      print('error-----$error----');
-//    }
-  }
-
-  Future showLoginProgress(BuildContext context) {
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                CircularProgressIndicator(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 26.0),
-                  child: Text("正在登录，请稍后..."),
-                )
-              ],
-            ),
-          );
-        });
+    } else {
+      if (model.data.agent.length > 1) {
+        // 选择产品线
+        Navigator.of(context)
+            .pushNamed('productLine', arguments: model.data.agent);
+      } else {
+        // 直接进入登录界面
+        runApp(RootWidget());
+      }
+    }
   }
 
   @override
@@ -158,13 +150,7 @@ class _LoginState extends State<Login> {
                         color: Colors.blue,
                         disabledColor: Colors.grey,
                         borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                        onPressed: () {
-                          var pass = _checkLoginInfo(context);
-                          if (pass == true) {
-                            showLoginProgress(context);
-                            _login();
-                          }
-                        },
+                        onPressed: () => goLogin(context),
                       ),
                     ),
                   ),

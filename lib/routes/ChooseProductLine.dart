@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_material/commons/Network.dart';
-import 'package:flutter_material/models/login_entity.dart';
+import 'package:flutter_material/models/login_model_entity.dart';
 import 'package:flutter_material/routes/RootWidget.dart';
 
 class ChooseProductLine extends StatefulWidget {
@@ -9,7 +9,7 @@ class ChooseProductLine extends StatefulWidget {
     Key key,
   }) : super(key : key);
   
-  List<LoginDataAgent> agents;
+  List<LoginModelDataAgent> agents;
   
   @override
   _ChooseProductLineState createState() => _ChooseProductLineState();
@@ -20,7 +20,7 @@ class _ChooseProductLineState extends State<ChooseProductLine> {
   int selectIndex;
 
   void login() {
-    LoginDataAgent agent = widget.agents[selectIndex];
+    LoginModelDataAgent agent = widget.agents[selectIndex];
     HttpQuerery.post(
       'material/account/set-admin-info.json',
       data: {
@@ -44,7 +44,7 @@ class _ChooseProductLineState extends State<ChooseProductLine> {
       body: ListView.builder(
         itemCount: widget.agents.length,
           itemBuilder: (BuildContext context, int index) {
-          LoginDataAgent agent = widget.agents[index];
+            LoginModelDataAgent agent = widget.agents[index];
               return ListTile(
                 leading: Image.network(agent.agentAvatar),
                 title: Text(agent.agentName),
