@@ -82,7 +82,7 @@ class HttpQuerery {
     }
 
     // 发送get请求
-    return await _sendRequest(url, 'get', headers: headers);
+    return await _sendRequest(url, 'get', data: data,  headers: headers);
   }
 
   static Future post(String url,
@@ -126,7 +126,7 @@ class HttpQuerery {
     print('token==$token===');
     try {
       Map<String, dynamic> params = {
-        'device_token': "",
+//        'device_token': "",
         'device_type': 1,
         'timestamp':
         '${((DateTime.now().millisecondsSinceEpoch) / 1000).toInt()}',
@@ -166,7 +166,7 @@ class HttpQuerery {
       );
       Dio dio = Dio(option);
       if (method == 'get') {
-        response = await dio.get(url);
+        response = await dio.get(url, queryParameters: params);
       } else {
         response = await dio.post(url, data: params);
       }
