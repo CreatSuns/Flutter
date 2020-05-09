@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/ConstantFile.dart';
+import 'package:flutter_material/CustomWidget/FlexText.dart';
 import 'package:flutter_material/CustomWidget/ImagePreview.dart';
 import 'package:flutter_material/models/home_model_entity.dart';
 
@@ -20,39 +21,30 @@ class HomeCell extends StatefulWidget {
 class _HomeCellState extends State<HomeCell> {
   var imageWidth;
   var imageArr;
-  GlobalKey contentKey = GlobalKey();
   bool isOpen = false;
-
-  double getContentHeight(){
-    RenderObject renderObject = contentKey.currentContext.findRenderObject();
-    print("semanticBounds:${renderObject.semanticBounds.size} paintBounds:${renderObject.paintBounds.size} size:${contentKey.currentContext.size}");
-    final RenderBox box = contentKey.currentContext.findRenderObject();
-    final size = box.size;
-    print('size==${size}');
-    final topLeftPosition = box.localToGlobal(Offset.zero);
-    print('topLeftPosition==${topLeftPosition}');
-    return topLeftPosition.dy;
-  }
 
   Widget titleContainer(BuildContext context) {
     return Row(
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(left: 16),
-          child: SizedBox(
-            width: 40,
-            height: 40,
-            child: IconButton(
-              padding: EdgeInsets.all(0),
-              icon: Image.network(
-                widget.data.agentAvatar,
-                width: double.infinity,
-                height: double.infinity,
-                fit: BoxFit.fill,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5.0),
+            child: SizedBox(
+              width: 40,
+              height: 40,
+              child: IconButton(
+                padding: EdgeInsets.all(0),
+                icon: Image.network(
+                  widget.data.agentAvatar,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.fill,
+                ),
+                onPressed: () {
+                  goUserRoute(context);
+                },
               ),
-              onPressed: () {
-                goUserRoute(context);
-              },
             ),
           ),
         ),
@@ -73,17 +65,11 @@ class _HomeCellState extends State<HomeCell> {
                   padding: EdgeInsets.only(top: 3.5),
                   child: Row(
                     children: <Widget>[
-                      Text(
-                        '${widget.data.agentLevelName}',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                        ),
-                      ),
+                      Image.asset('images/icon_huizhang.png'),
                       Padding(
                         padding: EdgeInsets.only(left: 5),
                         child: Text(
-                          '级别',
+                          '${widget.data.agentLevelName}',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 12,
@@ -97,79 +83,65 @@ class _HomeCellState extends State<HomeCell> {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(right: 16),
-          child: Text(
-            '${widget.data.createTime}',
-            style: TextStyle(
-              fontSize: 12,
+        ButtonTheme(
+          minWidth: 90,
+          child: FlatButton.icon(
+            onPressed: () {},
+            icon: Image.asset(
+              'images/icon_forward.png',
+              width: 10,
             ),
+            label: Text(
+              '转发',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            textColor: Colors.black,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-        )
+        ),
       ],
     );
   }
 
   Widget contentContainer() {
-    Widget show(){
-      getContentHeight();
-      return SizedBox(
-        width: 30,
-        height: 30,
-        child: FlatButton(
-          padding: EdgeInsets.symmetric(horizontal: 0),
-          onPressed: () {
-            setState(() {
-              print(isOpen);
-              isOpen = !isOpen;
-            });
-          },
-          child: Text(isOpen == true ? '收起' : '全文'),
-        ),
-      );
-    }
     return Padding(
       padding: EdgeInsets.only(left: 63, right: 50, top: 11.5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '${widget.data.content}',
-            key: contentKey,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 14,
-            ),
-            maxLines: isOpen == true ? null : 2,
-          ),
-        ],
+      child: FlexText(
+        text: '${widget.data.content}',
+        maxLines: 2,
+        style: TextStyle(fontSize: 15),
+        expand: false,
       ),
     );
   }
 
   Widget imagesContainer(BuildContext context) {
-
     List<Widget> widgets = [];
     widget.data.image.forEach((element) {
-      widgets.add(GestureDetector(
-        onTap: () {
-          changeRoute(context);
-        },
-        child: SizedBox(
-          width: imageWidth,
-          height: imageWidth,
-          child: Image(
-            image: NetworkImage(element as String),
-            fit: BoxFit.fill,
+      widgets.add(
+        GestureDetector(
+          onTap: () {
+            changeRoute(context);
+          },
+          child: SizedBox(
+            width: imageWidth,
+            height: imageWidth,
+            child: Image(
+              image: NetworkImage(element as String),
+              fit: BoxFit.fill,
+            ),
           ),
         ),
-      ),);
+      );
     });
 
     return Padding(
       padding: EdgeInsets.only(left: 69, right: 50, top: 20, bottom: 10),
       child: Wrap(
-        spacing: 5,
+        spacing: 5.0,
+        runSpacing: 5.0,
         children: widgets,
       ),
     );
@@ -177,54 +149,69 @@ class _HomeCellState extends State<HomeCell> {
 
   Widget actionContainer() {
     return Padding(
-      padding: EdgeInsets.only(left: 50),
+      padding: EdgeInsets.only(left: 65),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              ButtonTheme(
-                minWidth: 40,
-                child: FlatButton.icon(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    'images/icon_forward.png',
-                    width: 10,
-                  ),
-                  label: Text(
-                    '转发',
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                  textColor: Colors.black,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ),
-              ButtonTheme(
-                minWidth: 40,
-                child: FlatButton.icon(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    'images/icon_dianzan.png',
-                    width: 10,
-                  ),
-                  label: Text(
-                    '${widget.data.pointNum}',
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                  textColor: Colors.black,
-//              color: Colors.red,
-                ),
-              ),
-            ],
+          Text(
+            '${widget.data.createTime}',
+            style: TextStyle(
+              fontSize: 12,
+            ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: IconButton(icon: Icon(Icons.more_horiz), onPressed: () {}),
-          )
+            padding: EdgeInsets.only(left: 20),
+            child: ButtonTheme(
+              minWidth: 70,
+              child: FlatButton.icon(
+                onPressed: () {},
+                icon: Image.asset(
+                  'images/icon_pinglun.png',
+                ),
+                label: Text(
+                  '评论',
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+                textColor: Colors.black,
+//              color: Colors.red,
+              ),
+            ),
+          ),
+          ButtonTheme(
+            minWidth: 70,
+            child: FlatButton.icon(
+              onPressed: () {},
+              icon: Image.asset(
+                'images/icon_collect.png',
+              ),
+              label: Text(
+                '收藏',
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+              textColor: Colors.black,
+//              color: Colors.red,
+            ),
+          ),
+          ButtonTheme(
+            minWidth: 70,
+            child: FlatButton.icon(
+              onPressed: () {},
+              icon: Image.asset(
+                'images/icon_dianzan.png',
+              ),
+              label: Text(
+                '${widget.data.pointNum}',
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+              textColor: Colors.black,
+//              color: Colors.red,
+            ),
+          ),
         ],
       ),
     );
@@ -233,29 +220,58 @@ class _HomeCellState extends State<HomeCell> {
   Widget commentWidget() {
     List<Widget> widgets = [];
     widget.data.comment.forEach((element) {
-      widgets.add(Text('${element.agentName}: ${element.content}'));
+      widgets.add(
+        Padding(
+          padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+          child: SuffixFlexText(
+            textList: ['${element.agentName}:', element.content],
+            maxLines: 2,
+            style: TextStyle(fontSize: 14),
+            textSpan: TextSpan(children: [
+              TextSpan(
+                  text: '${element.agentName}:',
+                  style: TextStyle(fontSize: 14, color: Colors.black38)),
+              TextSpan(text: element.content, style: TextStyle(fontSize: 14)),
+            ]),
+          ),
+        ),
+      );
     });
-    return Container(
-        margin: EdgeInsets.only(bottom: 10, left: 69),
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        width: 330,
-        color: Colors.black12,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: widgets,
-        ));
+    return Padding(
+      padding: EdgeInsets.only(left: 69, right: 10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          width: 330,
+          color: Colors.black12,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: widgets,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     var width = getScreenWidth(context);
     imageWidth = (width - 130) / 3;
-    List<Widget> widgets = [titleContainer(context),
-      contentContainer(),actionContainer(),
-      commentWidget(),];
-    if (widget.data.image.length > 0) {
-      widgets.insert(2, imagesContainer(context));
+    List<Widget> widgets = [
+      titleContainer(context),
+    ];
+    if (widget.data.content.length > 0) {
+      widgets.add(contentContainer());
     }
+    if (widget.data.image.length > 0) {
+      widgets.add(imagesContainer(context));
+    }
+    widgets.add(actionContainer());
+    if (widget.data.comment.length > 0) {
+      widgets.add(commentWidget());
+    }
+
     return Container(
         color: Colors.white,
         padding: EdgeInsets.only(top: 10),

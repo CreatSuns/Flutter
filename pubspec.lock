@@ -20,7 +20,7 @@ packages:
     description:
       path: "flutter_untils/cache"
       ref: HEAD
-      resolved-ref: "721719702cfc9ac1c1b1d45329ed0c7e2219bf22"
+      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"
@@ -92,7 +92,7 @@ packages:
     description:
       path: "flutter_widgets/extended_image-master"
       ref: HEAD
-      resolved-ref: "721719702cfc9ac1c1b1d45329ed0c7e2219bf22"
+      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.7.2"
@@ -102,7 +102,7 @@ packages:
       name: extended_image_library
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.3"
   fake_async:
     dependency: transitive
     description:
@@ -151,7 +151,7 @@ packages:
     description:
       path: "flutter_widgets/image_preview"
       ref: HEAD
-      resolved-ref: "721719702cfc9ac1c1b1d45329ed0c7e2219bf22"
+      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"
@@ -225,6 +225,15 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.2"
+  round_checkbox:
+    dependency: "direct main"
+    description:
+      path: "flutter_widgets/round_checkbox"
+      ref: HEAD
+      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
+      url: "https://github.com/wya-team/flutter_wya.git"
+    source: git
+    version: "0.0.1"
   shared_preferences:
     dependency: transitive
     description:
@@ -321,7 +330,7 @@ packages:
     description:
       path: "flutter_widgets/tableview"
       ref: HEAD
-      resolved-ref: "721719702cfc9ac1c1b1d45329ed0c7e2219bf22"
+      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"

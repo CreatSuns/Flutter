@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter_material/CustomWidget/CustomWidget.dart';
 import 'package:flutter_material/models/login_network_query.dart';
 import 'package:flutter_material/routes/RootWidget.dart';
+import 'package:round_checkbox/round_checkbox.dart';
 
 typedef GetInputText = Function(String text);
 

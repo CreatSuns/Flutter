@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
   Future homeData() async {
     HomeModelEntity model = await HomeNetworkQuery.homeListDataQuery({
       "circle_pass_id": 0,
-      'pageSize': 10,
+      'pageSize': 50,
     });
     return model.data.xList;
     
