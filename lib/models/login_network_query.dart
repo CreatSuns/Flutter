@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cache/sharepreferences_until.dart';
 import 'package:flutter_material/commons/Network.dart';
 import 'package:flutter_material/commons/Urls.dart';
+import 'package:flutter_material/commons/const_some.dart';
 import 'package:flutter_material/generated/json/login_model_entity_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqlmanager/model_turn.dart';
@@ -10,8 +11,6 @@ import 'package:sqlmanager/sqlmanager.dart';
 
 
 import 'login_model_entity.dart';
-
-const String loginTable = 'loginTable';
 
 class LoginNetWorkQuery{
 
@@ -49,13 +48,14 @@ class LoginNetWorkQuery{
       await file.createTable(loginTable, ModelTurn.paramsToList(loginModelDataAgentToJson(agent.first)), ModelTurn.paramsTypeToList(loginModelDataAgentToJson(agent.first)));
     }
     agent.forEach((element) async {
-      int aaa = await file.insert(loginTable, loginModelDataAgentToJson(element));
-      print('aaa==$aaa');
+      List list = await file.query(loginTable, ['agent_id'], where: 'agent_id=?', whereArgs: [element.agentId]);
+      print(list);
+      if (list != null && list.length > 0) {
+        int aaa = await file.update(loginTable, loginModelDataAgentToJson(element));
+        print('aaa==$aaa');
+      } else {
+        await file.insert(loginTable, loginModelDataAgentToJson(element));
+      }
     });
-
   }
-
-
-
-
 }

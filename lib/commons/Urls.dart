@@ -3,3 +3,4 @@ const String productLineUrl = 'material/account/set-admin-info.json';
 
 const String homeListDataUrl = 'material/agent-circle/get-list.json';
 const String homeCoverImageUrl = 'material/agent-circle/cover-image.json';
+const String homeCollectUrl = 'material/agent-circle/collect.json';

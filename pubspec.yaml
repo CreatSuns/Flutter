@@ -22,6 +22,11 @@ dependencies:
       url: https://github.com/wya-team/flutter_wya.git
       path: flutter_untils/cache
 
+  toast:
+    git:
+      url: https://github.com/wya-team/flutter_wya.git
+      path: flutter_widgets/toast
+
   tableview:
     git:
       url: https://github.com/wya-team/flutter_wya.git

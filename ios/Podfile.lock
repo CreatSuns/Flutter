@@ -1,6 +1,9 @@
 PODS:
   - cache (0.0.1):
     - Flutter
+  - CocoaLumberjack (3.6.1):
+    - CocoaLumberjack/Core (= 3.6.1)
+  - CocoaLumberjack/Core (3.6.1)
   - connectivity (0.0.1):
     - Flutter
     - Reachability
@@ -10,6 +13,7 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - Masonry (1.1.0)
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
@@ -26,6 +30,16 @@ PODS:
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
+  - SVGKit (2.1.1):
+    - CocoaLumberjack (~> 3.0)
+  - toast (0.0.1):
+    - Flutter
+    - Masonry
+    - SVGKit
+    - YYImage
+  - YYImage (1.0.4):
+    - YYImage/Core (= 1.0.4)
+  - YYImage/Core (1.0.4)
 
 DEPENDENCIES:
   - cache (from `.symlinks/plugins/cache/ios`)
@@ -39,11 +53,16 @@ DEPENDENCIES:
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - toast (from `.symlinks/plugins/toast/ios`)
 
 SPEC REPOS:
   trunk:
+    - CocoaLumberjack
     - FMDB
+    - Masonry
     - Reachability
+    - SVGKit
+    - YYImage
 
 EXTERNAL SOURCES:
   cache:
@@ -68,13 +87,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_web/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  toast:
+    :path: ".symlinks/plugins/toast/ios"
 
 SPEC CHECKSUMS:
   cache: 04880bbbaae09c4c08024c7713fc4ce55d25ff9b
+  CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
   connectivity: 6e94255659cc86dcbef1d452ad3e0491bb1b3e75
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
@@ -83,6 +106,9 @@ SPEC CHECKSUMS:
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  SVGKit: 652cdf7bef8bec8564d04a8511d3ab50c7595fac
+  toast: f2d44add85cd525699dfcb7e34cba77f0c5f8a97
+  YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
 PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
 

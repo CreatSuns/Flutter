@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material/models/home_cover_image_entity.dart';
 import 'package:flutter_material/models/home_model_entity.dart';
 import 'package:flutter_material/models/home_network_query.dart';
+import 'package:flutter_material/models/login_model_entity.dart';
 import 'package:flutter_material/routes/home_cell.dart';
 
 import 'package:tableview/tableview.dart';
-
 
 class Home extends StatefulWidget {
   @override
@@ -15,10 +15,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<HomeModelDataList> list;
   String coverImageStr;
+  LoginModelDataAgent agent;
 
   void homeCover() async {
+    LoginModelDataAgent model = await HomeNetworkQuery.getUserInfo();
     HomeCoverImageEntity entity = await HomeNetworkQuery.homeCoverImageQuery();
     setState(() {
+      agent = model;
       coverImageStr = entity.data.coverImage;
     });
   }
@@ -29,7 +32,6 @@ class _HomeState extends State<Home> {
       'pageSize': 50,
     });
     return model.data.xList;
-    
   }
 
   Widget tableHeaderView() {
@@ -63,16 +65,23 @@ class _HomeState extends State<Home> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 250, top: 150),
-            child: IconButton(
-              iconSize: 80,
-              icon: Image.asset(
-                'images/pic_dongtaitouxiang.png',
-                fit: BoxFit.fill,
+            padding: EdgeInsets.only(left: 280, top: 150),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5.0),
+              child: SizedBox(
                 width: 80,
                 height: 80,
+                child: IconButton(
+                  padding: EdgeInsets.all(0),
+                  icon: Image.network(
+                    agent.agentAvatar,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.fill,
+                  ),
+                  onPressed: () {},
+                ),
               ),
-              onPressed: null,
             ),
           ),
         ],
@@ -96,7 +105,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-//    homeData();
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -125,7 +133,9 @@ class _HomeState extends State<Home> {
                 );
               }
             } else {
-              return Text('等待网络');
+              return Center(
+                child: Text('等待网络'),
+              );
             }
           },
         ),

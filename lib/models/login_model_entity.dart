@@ -54,4 +54,5 @@ class LoginModelDataAgent with JsonConvert<LoginModelDataAgent> {
 	String brandLogo;
 	@JSONField(name: "member_id")
 	int memberId;
+	bool isSelect;
 }

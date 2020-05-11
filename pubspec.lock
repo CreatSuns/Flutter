@@ -20,7 +20,7 @@ packages:
     description:
       path: "flutter_untils/cache"
       ref: HEAD
-      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
+      resolved-ref: "48f1593a78a8eaffbe3435d73190bacc718663a4"
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"
@@ -92,7 +92,7 @@ packages:
     description:
       path: "flutter_widgets/extended_image-master"
       ref: HEAD
-      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
+      resolved-ref: "48f1593a78a8eaffbe3435d73190bacc718663a4"
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.7.2"
@@ -151,7 +151,7 @@ packages:
     description:
       path: "flutter_widgets/image_preview"
       ref: HEAD
-      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
+      resolved-ref: "48f1593a78a8eaffbe3435d73190bacc718663a4"
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"
@@ -230,7 +230,7 @@ packages:
     description:
       path: "flutter_widgets/round_checkbox"
       ref: HEAD
-      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
+      resolved-ref: "48f1593a78a8eaffbe3435d73190bacc718663a4"
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"
@@ -293,7 +293,7 @@ packages:
     description:
       path: "flutter_untils/sql_manager"
       ref: HEAD
-      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
+      resolved-ref: "48f1593a78a8eaffbe3435d73190bacc718663a4"
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"
@@ -330,7 +330,7 @@ packages:
     description:
       path: "flutter_widgets/tableview"
       ref: HEAD
-      resolved-ref: b6a65410bb7dfaeba55982b4eaf2007822f7529a
+      resolved-ref: "48f1593a78a8eaffbe3435d73190bacc718663a4"
       url: "https://github.com/wya-team/flutter_wya.git"
     source: git
     version: "0.0.1"
@@ -348,6 +348,15 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.15"
+  toast:
+    dependency: "direct main"
+    description:
+      path: "flutter_widgets/toast"
+      ref: HEAD
+      resolved-ref: "48f1593a78a8eaffbe3435d73190bacc718663a4"
+      url: "https://github.com/wya-team/flutter_wya.git"
+    source: git
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:

@@ -135,5 +135,6 @@ Map<String, dynamic> loginModelDataAgentToJson(LoginModelDataAgent entity) {
 	data['company_name'] = entity.companyName;
 	data['brand_logo'] = entity.brandLogo;
 	data['member_id'] = entity.memberId;
+	data['isSelect'] = entity.isSelect == true ? 1 : 0;
 	return data;
 }
