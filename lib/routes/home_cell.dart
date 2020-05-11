@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material/ConstantFile.dart';
 import 'package:flutter_material/CustomWidget/FlexText.dart';
 import 'package:flutter_material/CustomWidget/ImagePreview.dart';
+import 'package:flutter_material/CustomWidget/button.dart';
 import 'package:flutter_material/models/home_model_entity.dart';
+import 'package:flutter_material/models/home_network_query.dart';
 
 class HomeCell extends StatefulWidget {
   HomeCell({
@@ -158,59 +160,94 @@ class _HomeCellState extends State<HomeCell> {
               fontSize: 12,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: ButtonTheme(
-              minWidth: 70,
-              child: FlatButton.icon(
-                onPressed: () {},
-                icon: Image.asset(
+          Button(
+            disable: false,
+            width: 80.0,
+            height: 44.0,
+            direction: ButtonDirection.ltr,
+            boxDecorationCallback: (state) {
+              return BoxDecoration();
+            },
+            titleCallback: (state) {
+              return Padding(
+                padding: EdgeInsets.only(left: 5.0),
+                child: Text('评论'),
+              );
+            },
+            imageCallback: (state) {
+              if (state == ButtonState.normal) {
+                return Image.asset(
                   'images/icon_pinglun.png',
-                ),
-                label: Text(
-                  '评论',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-                textColor: Colors.black,
-//              color: Colors.red,
-              ),
-            ),
+                );
+              } else {
+                return Image.asset(
+                  'images/icon_collect.png',
+                );
+              }
+            },
           ),
-          ButtonTheme(
-            minWidth: 70,
-            child: FlatButton.icon(
-              onPressed: () {},
-              icon: Image.asset(
-                'images/icon_collect.png',
-              ),
-              label: Text(
-                '收藏',
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-              ),
-              textColor: Colors.black,
-//              color: Colors.red,
-            ),
+          Button(
+            disable: false,
+            select: widget.data.isCollect == 1 ? true : false,
+            width: 80.0,
+            direction: ButtonDirection.ltr,
+            boxDecorationCallback: (state) {
+              return BoxDecoration();
+            },
+            titleCallback: (state) {
+              return Padding(
+                padding: EdgeInsets.only(left: 5.0),
+                child: Text('收藏'),
+              );
+            },
+            imageCallback: (state) {
+              if (state == ButtonState.normal) {
+                return Image.asset(
+                  'images/icon_collect.png',
+                );
+              } else if (state == ButtonState.select){
+                return Image.asset(
+                  'images/icon_collect_press.png',
+                );
+              } else {
+                return null;
+              }
+            },
+            tapCallback: (select) async {
+              await HomeNetworkQuery.homeCollect({'circle_id': widget.data.circleId, 'is_collect': select.toString()});
+            },
           ),
-          ButtonTheme(
-            minWidth: 70,
-            child: FlatButton.icon(
-              onPressed: () {},
-              icon: Image.asset(
-                'images/icon_dianzan.png',
-              ),
-              label: Text(
-                '${widget.data.pointNum}',
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-              ),
-              textColor: Colors.black,
-//              color: Colors.red,
-            ),
+          Button(
+            disable: false,
+            select: widget.data.isPoint == 1 ? true : false,
+            width: 80.0,
+            direction: ButtonDirection.ltr,
+            boxDecorationCallback: (state) {
+              return BoxDecoration();
+            },
+            titleCallback: (state) {
+              return Padding(
+                padding: EdgeInsets.only(left: 5.0),
+                child: Text(widget.data.pointNum.toString()),
+              );
+            },
+            imageCallback: (state) {
+              print(state.toString());
+              if (state == ButtonState.normal) {
+                return Image.asset(
+                  'images/icon_dianzan.png',
+                );
+              } else if (state == ButtonState.select){
+                return Image.asset(
+                  'images/icon_dianzan_press.png',
+                );
+              } else {
+                return null;
+              }
+            },
+            tapCallback: (select) async {
+              await HomeNetworkQuery.homeLike({'circle_id': widget.data.circleId, 'is_point': select.toString()});
+            },
           ),
         ],
       ),

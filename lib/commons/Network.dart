@@ -170,7 +170,7 @@ class HttpQuerery {
       } else {
         response = await dio.post(url, data: params);
       }
-//      print('response===$response====');
+      print('response===$response====');
 //      if (response.statusCode != 200) {
 //        _msg = '网络请求错误,状态码:' + response.statusCode.toString();
 //        return _msg;

@@ -38,7 +38,11 @@ class HomeNetworkQuery {
   }
 
   static Future homeCollect(Map<String, dynamic> map) async {
-//    var data = await HttpQuerery.get(url);
+    var data = await HttpQuerery.post(homeCollectUrl, data: map);
+  }
+
+  static Future homeLike(Map<String, dynamic> map) async {
+    var data = await HttpQuerery.post(homeLikeUrl, data: map);
   }
 
   static Future<LoginModelDataAgent> getUserInfo() async {
