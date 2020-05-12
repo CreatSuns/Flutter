@@ -37,6 +37,12 @@ dependencies:
       url: https://github.com/wya-team/flutter_wya.git
       path: flutter_widgets/image_preview
 
+  dialog:
+    git:
+      url: https://github.com/wya-team/flutter_wya.git
+      path: flutter_widgets/dialog
+
+
   flutter:
     sdk: flutter
 
@@ -66,7 +72,7 @@ dependencies:
     git:
       url: https://github.com/wya-team/flutter_wya.git
       path: flutter_untils/sql_manager
-#    path: /Users/lishihang/Desktop/GitProject/Flutter/flutter_wya/flutter_untils/sql_manager
+  #    path: /Users/lishihang/Desktop/GitProject/Flutter/flutter_wya/flutter_untils/sql_manager
   round_checkbox:
     git:
       url: https://github.com/wya-team/flutter_wya.git

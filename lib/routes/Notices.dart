@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/commons/BaseColors.dart';
+import 'package:flutter_material/models/mine/notice_model_entity.dart';
+import 'package:flutter_material/models/mine/notice_network_query.dart';
+import 'package:toast/toast.dart';
 
 class Notices extends StatefulWidget {
   @override
   _NoticesState createState() => _NoticesState();
 }
 
+Future noticeData() async {
+  NoticeModelEntity model = await NoticeNetworkQuery.noticeListQuery({
+    "circle_pass_id": 0,
+    'pageSize': 10,
+  });
+  CustomToast.cancelLoading();
+  return model.data.xList;
+}
+
+
+
 class _NoticesState extends State<Notices> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,53 +92,82 @@ class NoticesBody extends StatelessWidget {
 }
 
 class NoticesList extends StatelessWidget {
+  List<NoticeModelEntityDataList> list;
+
   @override
   Widget build(BuildContext context) {
     //下划线widget预定义以供复用。
     Widget divider = Divider(
       color: BaseColors.colorF6F6F6,
     );
-    return ListView.separated(
-      padding: const EdgeInsets.only(top: 50),
-      itemCount: 100,
-      //列表项构造器
-      itemBuilder: (BuildContext context, int index) {
-        return SizedBox(
-          height: 50,
-          child: RaisedButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-            color: BaseColors.colorWhite,
-            elevation: 0,
-            child: Container(
-              color: BaseColors.colorWhite,
-              height: 50,
-              child: Row(
-                children: <Widget>[
-                  Image(
-                    image: AssetImage('images/icon_notify.png'),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(5),
-                    child: Text(
-                      "公告通知内容公告通知内容公告通知内容",
-                      style: TextStyle(fontSize: 14, color: Colors.black),
+    return FutureBuilder(
+      future: noticeData(),
+//        initialData: ,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Text('数据有误');
+          } else {
+            list = snapshot.data;
+            return ListView.separated(
+              padding: const EdgeInsets.only(top: 50),
+              itemCount: list.length,
+              //列表项构造器
+              itemBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 50,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0)),
+                    color: BaseColors.colorWhite,
+                    elevation: 0,
+                    child: Container(
+                      color: BaseColors.colorWhite,
+                      height: 50,
+                      child: Row(
+                        children: <Widget>[
+                          Image(
+                            image: AssetImage('images/icon_notify.png'),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(5),
+                            child: Text(
+                              list[index].content,
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    onPressed: () {
+//                      Navigator.push(context,
+//                          MaterialPageRoute(builder: (context) => Notices()));
+                    },
                   ),
-                ],
-              ),
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Notices()));
-            },
-          ),
-        );
-      },
-      //分割器构造器
-      separatorBuilder: (BuildContext context, int index) {
-        return divider;
+                );
+              },
+              //分割器构造器
+              separatorBuilder: (BuildContext context, int index) {
+                return divider;
+              },
+            );
+          }
+        } else {
+          showLoading();
+          return Text("");
+        }
       },
     );
+  }
+
+  void showLoading() {
+    CustomToast.showLoading(
+        msg: '加载数据中...', cancelable: true, canceledOnTouchOutside: true);
+  }
+
+  void showFail() {
+    CustomToast.showLoading(
+        cancelable: true, canceledOnTouchOutside: true, status: -1);
   }
 }
