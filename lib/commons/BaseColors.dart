@@ -40,4 +40,8 @@ class BaseColors {
 
   ///公告通知全部标记文字颜色
   static Color color576B95 = Color.fromARGB(255, 87, 107, 149);
+
+  /// 金色文字颜色
+  static Color colorE7C083 = Color.fromARGB(255, 231,192,131);
+
 }

@@ -38,6 +38,12 @@ dependencies:
       url: https://github.com/wya-team/flutter_wya.git
       path: flutter_widgets/image_preview
 
+  dialog:
+    git:
+      url: https://github.com/wya-team/flutter_wya.git
+      path: flutter_widgets/dialog
+
+
   flutter:
     sdk: flutter
 
