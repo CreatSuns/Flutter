@@ -1,4 +1,4 @@
-import 'package:flutter_material/models/home_cover_image_entity.dart';
+import 'package:flutter_material/models/home/home_cover_image_entity.dart';
 
 homeCoverImageEntityFromJson(HomeCoverImageEntity data, Map<String, dynamic> json) {
 	if (json['status'] != null) {

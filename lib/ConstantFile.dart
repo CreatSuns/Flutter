@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-final ScreenWidth = window.physicalSize.width;
-final ScreenHeight = window.physicalSize.height;
+final PhoneWidth = window.physicalSize.width;
+final PhoneHeight = window.physicalSize.height;
 
 
 double getScreenWidth(BuildContext context) {

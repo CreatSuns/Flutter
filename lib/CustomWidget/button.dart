@@ -35,7 +35,7 @@ typedef ButtonTapCallback = Function(bool select);
 
 class Button extends StatefulWidget {
   Button(
-      {this.disable,
+      {this.disable = false,
       this.select = false,
       this.width,
       this.height,

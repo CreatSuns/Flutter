@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/commons/BaseColors.dart';
-import 'package:flutter_material/models/home_network_query.dart';
-import 'package:flutter_material/models/login_model_entity.dart';
+import 'package:flutter_material/models/home/home_network_query.dart';
+import 'package:flutter_material/models/login/login_model_entity.dart';
 import 'package:toast/toast.dart';
 
-import 'Notices.dart';
-import 'Setting.dart';
+import '../Notices.dart';
+import '../Setting.dart';
 
 class Mine extends StatefulWidget {
   @override

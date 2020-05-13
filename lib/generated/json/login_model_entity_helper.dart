@@ -1,4 +1,4 @@
-import 'package:flutter_material/models/login_model_entity.dart';
+import 'package:flutter_material/models/login/login_model_entity.dart';
 
 loginModelEntityFromJson(LoginModelEntity data, Map<String, dynamic> json) {
 	if (json['status'] != null) {
@@ -114,6 +114,9 @@ loginModelDataAgentFromJson(LoginModelDataAgent data, Map<String, dynamic> json)
 	if (json['member_id'] != null) {
 		data.memberId = json['member_id']?.toInt();
 	}
+	if (json['isSelect'] != null) {
+		data.isSelect = json['isSelect'] == 1 ? true : false;
+	}
 	return data;
 }
 
@@ -135,6 +138,6 @@ Map<String, dynamic> loginModelDataAgentToJson(LoginModelDataAgent entity) {
 	data['company_name'] = entity.companyName;
 	data['brand_logo'] = entity.brandLogo;
 	data['member_id'] = entity.memberId;
-	data['isSelect'] = entity.isSelect == true ? 1 : 0;
+	data['isSelect'] = entity.isSelect;
 	return data;
 }
