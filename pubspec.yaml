@@ -28,10 +28,10 @@ dependencies:
       path: flutter_widgets/toast
 
   tableview:
-#    git:
-#      url: https://github.com/wya-team/flutter_wya.git
-#      path: flutter_widgets/tableview
-    path: /Users/lishihang/Desktop/GitProject/Flutter/flutter_wya/flutter_widgets/tableview
+    git:
+      url: https://github.com/wya-team/flutter_wya.git
+      path: flutter_widgets/tableview
+#    path: /Users/lishihang/Desktop/GitProject/Flutter/flutter_wya/flutter_widgets/tableview
 
   image_preview:
     git:
@@ -43,6 +43,8 @@ dependencies:
       url: https://github.com/wya-team/flutter_wya.git
       path: flutter_widgets/dialog
 
+
+  shared_preferences: ^0.5.3
 
   flutter:
     sdk: flutter

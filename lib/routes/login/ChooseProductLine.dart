@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/ConstantFile.dart';
-import 'package:flutter_material/commons/Network.dart';
 import 'package:flutter_material/models/login_model_entity.dart';
 import 'package:flutter_material/models/login_network_query.dart';
 import 'package:flutter_material/routes/RootWidget.dart';
@@ -41,7 +40,10 @@ class _ChooseProductLineState extends State<ChooseProductLine> {
       'admin_id': agent.adminId,
     });
 
+
+
     await LoginNetWorkQuery.saveModel(widget.agents);
+    await LoginNetWorkQuery.saveShardPreferencesModel(widget.agents, agent.adminId);
     runApp(RootWidget());
   }
 
