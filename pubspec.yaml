@@ -45,6 +45,8 @@ dependencies:
       path: flutter_widgets/dialog
 
 
+  shared_preferences: ^0.5.3
+
   flutter:
     sdk: flutter
 

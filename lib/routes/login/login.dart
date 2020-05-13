@@ -132,8 +132,8 @@ class _LoginState extends State<Login> {
                     textBuild: (text) {
                       userName = text;
                     },
-                    textComplete: (){
-                      if(null == focusScopeNode){
+                    textComplete: () {
+                      if (null == focusScopeNode) {
                         focusScopeNode = FocusScope.of(context);
                       }
                       focusScopeNode.requestFocus(passwordFocusNode);
@@ -148,7 +148,7 @@ class _LoginState extends State<Login> {
                     textBuild: (text) {
                       password = text;
                     },
-                    textComplete: (){
+                    textComplete: () {
                       passwordFocusNode.unfocus();
                     },
                   ),

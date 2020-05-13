@@ -1,25 +1,26 @@
 import 'dart:convert';
+import 'dart:convert' as convert;
 
 import 'package:cache/sharepreferences_until.dart';
 import 'package:flutter_material/commons/Network.dart';
 import 'package:flutter_material/commons/Urls.dart';
 import 'package:flutter_material/commons/const_some.dart';
 import 'package:flutter_material/generated/json/login_model_entity_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqlmanager/model_turn.dart';
 import 'package:sqlmanager/sqlmanager.dart';
 
-
 import 'login_model_entity.dart';
 
-class LoginNetWorkQuery{
-
+class LoginNetWorkQuery {
   Database database;
 
   static Future login(Map<String, dynamic> params) async {
     var data = await HttpQuerery.post(loginUrl, data: params);
     try {
-      LoginModelEntity loginModel = loginModelEntityFromJson(LoginModelEntity(), json.decode(data));
+      LoginModelEntity loginModel =
+          loginModelEntityFromJson(LoginModelEntity(), json.decode(data));
       ShardPreferences.localSave('access_token', loginModel.data.accessToken);
       return loginModel;
     } catch (error) {
@@ -45,11 +46,26 @@ class LoginNetWorkQuery{
     await file.open();
     bool isHave = await file.isTableExits(loginTable);
     if (isHave == false) {
-      await file.createTable(loginTable, ModelTurn.paramsToList(loginModelDataAgentToJson(agent.first)), ModelTurn.paramsTypeToList(loginModelDataAgentToJson(agent.first)));
+      await file.createTable(
+          loginTable,
+          ModelTurn.paramsToList(loginModelDataAgentToJson(agent.first)),
+          ModelTurn.paramsTypeToList(loginModelDataAgentToJson(agent.first)));
     }
     await file.delete(loginTable);
     agent.forEach((element) async {
       await file.insert(loginTable, loginModelDataAgentToJson(element));
     });
+  }
+
+  static saveShardPreferencesModel(List<LoginModelDataAgent> agents, int adminId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("agents");
+    prefs.remove("adminId");
+    String jsonString = convert.jsonEncode(agents);
+    prefs.setString("agents", jsonString);
+    prefs.setInt("adminId", adminId);
+    print('打印toString: $jsonString');
+    print(prefs.getString("agents"));
+    print(adminId);
   }
 }
