@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material/ConstantFile.dart';
 import 'package:flutter_material/CustomWidget/FlexText.dart';
@@ -6,14 +7,18 @@ import 'package:flutter_material/CustomWidget/button.dart';
 import 'package:flutter_material/models/home_model_entity.dart';
 import 'package:flutter_material/models/home_network_query.dart';
 
+typedef CommentCallback = Function();
+
 class HomeCell extends StatefulWidget {
   HomeCell({
     Key key,
     this.index,
+    this.callback,
     this.data,
   }) : super(key: key);
 
   int index;
+  CommentCallback callback;
   HomeModelDataList data;
 
   @override
@@ -26,6 +31,7 @@ class _HomeCellState extends State<HomeCell> {
   bool isOpen = false;
 
   Widget titleContainer(BuildContext context) {
+//    print(widget.data.agentAvatar.toString());
     return Row(
       children: <Widget>[
         Padding(
@@ -42,6 +48,13 @@ class _HomeCellState extends State<HomeCell> {
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.fill,
+//                  loadingBuilder: (BuildContext context,
+//                      Widget child,
+//                      ImageChunkEvent loadingProgress) {
+//                    return CupertinoActivityIndicator(
+//                      radius: 10,
+//                    );
+//                  },
                 ),
                 onPressed: () {
                   goUserRoute(context);
@@ -185,6 +198,11 @@ class _HomeCellState extends State<HomeCell> {
                 );
               }
             },
+            tapCallback: (select){
+              if (widget.callback != null) {
+                widget.callback();
+              }
+            },
           ),
           Button(
             disable: false,
@@ -232,7 +250,7 @@ class _HomeCellState extends State<HomeCell> {
               );
             },
             imageCallback: (state) {
-              print(state.toString());
+//              print(state.toString());
               if (state == ButtonState.normal) {
                 return Image.asset(
                   'images/icon_dianzan.png',

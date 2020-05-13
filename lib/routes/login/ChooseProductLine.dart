@@ -115,7 +115,7 @@ class _ChooseProductLineState extends State<ChooseProductLine> {
             ),
             Container(
               color: Colors.black87,
-              width: ScreenWidth,
+              width: PhoneWidth,
               height: 80.0,
               child: FlatButton(
                 onPressed: login,

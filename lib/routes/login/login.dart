@@ -393,7 +393,7 @@ class UserAgreementWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     TapGestureRecognizer tap = TapGestureRecognizer();
     tap.onTap = (){
-
+      Navigator.of(context).pushNamed('userProcotol');
     };
     return Padding(
       padding: EdgeInsets.only(left: 30, right: 20),

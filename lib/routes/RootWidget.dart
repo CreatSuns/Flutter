@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_material/routes/Home.dart';
-import 'package:flutter_material/routes/Material.dart';
-import 'package:flutter_material/routes/Mine.dart';
-import 'package:flutter_material/routes/SendDynamic.dart';
+import 'package:flutter_material/routes/home/Home.dart';
+import 'package:flutter_material/routes/material/Material.dart';
+import 'package:flutter_material/routes/mine/Mine.dart';
+import 'package:flutter_material/routes/home/SendDynamic.dart';
 import 'package:flutter_material/routes/UserAgentRoute.dart';
 
 class RootWidget extends StatefulWidget {
@@ -38,70 +38,6 @@ class _RootWidgetState extends State<RootWidget> {
         'userAgent':(context) => UserAgentRoute(),
       },
       home: Scaffold(
-        floatingActionButton: Builder(builder: (context) {
-          return IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SafeArea(
-                        child: Container(
-                            height: 200,
-                            color: Colors.grey,
-                            child: Column(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-//                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      FlatButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pushNamed('sendDynamic');
-                                          },
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Image(
-                                                  image: AssetImage(
-                                                      'images/icon_issue.png')),
-                                              Text('发动态'),
-                                            ],
-                                          )),
-                                      FlatButton(
-                                          onPressed: () {},
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Image(
-                                                  image: AssetImage(
-                                                      'images/icon_source.png')),
-                                              Text('发素材'),
-                                            ],
-                                          )),
-                                      FlatButton(
-                                          onPressed: () {},
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Image(
-                                                  image: AssetImage(
-                                                      'images/icon_write.png')),
-                                              Text('写文章'),
-                                            ],
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                                RaisedButton(onPressed: () {}, child: Text('取消'))
-                              ],
-                            )),
-                      );
-                    });
-              });
-        }),
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(

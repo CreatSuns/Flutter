@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/commons/BaseColors.dart';
 
-import 'Notices.dart';
-import 'Setting.dart';
+import '../Notices.dart';
+import '../Setting.dart';
 
 class Mine extends StatefulWidget {
   @override

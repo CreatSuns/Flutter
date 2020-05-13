@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_material/routes/ChooseProductLine.dart';
-import 'package:flutter_material/routes/login.dart';
+import 'package:flutter_material/routes/login/ChooseProductLine.dart';
+import 'package:flutter_material/routes/login/login.dart';
+import 'package:flutter_material/routes/login/user_procotol.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'login' : (context) => Login(),
         'productLine' : (context) => ChooseProductLine(ModalRoute.of(context).settings.arguments),
+        'userProcotol' : (context) => UserProcotol(),
       },
       home: Login(),
     );

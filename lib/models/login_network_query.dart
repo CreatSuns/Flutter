@@ -47,15 +47,9 @@ class LoginNetWorkQuery{
     if (isHave == false) {
       await file.createTable(loginTable, ModelTurn.paramsToList(loginModelDataAgentToJson(agent.first)), ModelTurn.paramsTypeToList(loginModelDataAgentToJson(agent.first)));
     }
+    await file.delete(loginTable);
     agent.forEach((element) async {
-      List list = await file.query(loginTable, ['agent_id'], where: 'agent_id=?', whereArgs: [element.agentId]);
-      print(list);
-      if (list != null && list.length > 0) {
-        int aaa = await file.update(loginTable, loginModelDataAgentToJson(element));
-        print('aaa==$aaa');
-      } else {
-        await file.insert(loginTable, loginModelDataAgentToJson(element));
-      }
+      await file.insert(loginTable, loginModelDataAgentToJson(element));
     });
   }
 }
