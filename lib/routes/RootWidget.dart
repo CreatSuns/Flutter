@@ -5,7 +5,7 @@ import 'package:flutter_material/routes/home/Home.dart';
 import 'package:flutter_material/routes/material/Material.dart';
 import 'package:flutter_material/routes/mine/Mine.dart';
 import 'package:flutter_material/routes/home/SendDynamic.dart';
-import 'package:flutter_material/routes/UserAgentRoute.dart';
+import 'package:flutter_material/routes/home/UserAgentRoute.dart';
 
 class RootWidget extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _RootWidgetState extends State<RootWidget> {
     return MaterialApp(
       routes: {
         'sendDynamic':(context) => SendDynamic(),
-        'userAgent':(context) => UserAgentRoute(),
+        'userAgent':(context) => UserAgentRoute(ModalRoute.of(context).settings.arguments),
       },
       home: Scaffold(
         bottomNavigationBar: BottomNavigationBar(

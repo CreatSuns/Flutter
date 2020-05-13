@@ -4,10 +4,10 @@ import 'package:flutter_material/ConstantFile.dart';
 import 'package:flutter_material/CustomWidget/FlexText.dart';
 import 'package:flutter_material/CustomWidget/ImagePreview.dart';
 import 'package:flutter_material/CustomWidget/button.dart';
-import 'package:flutter_material/models/home_model_entity.dart';
-import 'package:flutter_material/models/home_network_query.dart';
-
-typedef CommentCallback = Function();
+import 'package:flutter_material/commons/callback.dart';
+import 'package:flutter_material/models/home/home_model_entity.dart';
+import 'package:flutter_material/models/home/home_network_query.dart';
+import 'package:flutter_material/widgets/home/home_section_foot.dart';
 
 class HomeCell extends StatefulWidget {
   HomeCell({
@@ -18,7 +18,7 @@ class HomeCell extends StatefulWidget {
   }) : super(key: key);
 
   int index;
-  CommentCallback callback;
+  NoParamsAndReturnCallback callback;
   HomeModelDataList data;
 
   @override
@@ -41,13 +41,14 @@ class _HomeCellState extends State<HomeCell> {
             child: SizedBox(
               width: 40,
               height: 40,
-              child: IconButton(
-                padding: EdgeInsets.all(0),
-                icon: Image.network(
-                  widget.data.agentAvatar,
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.fill,
+              child: widget.data != null
+                  ? IconButton(
+                      padding: EdgeInsets.all(0),
+                      icon: Image.network(
+                        widget.data.agentAvatar,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.fill,
 //                  loadingBuilder: (BuildContext context,
 //                      Widget child,
 //                      ImageChunkEvent loadingProgress) {
@@ -55,11 +56,12 @@ class _HomeCellState extends State<HomeCell> {
 //                      radius: 10,
 //                    );
 //                  },
-                ),
-                onPressed: () {
-                  goUserRoute(context);
-                },
-              ),
+                      ),
+                      onPressed: () {
+                        goUserRoute(context);
+                      },
+                    )
+                  : null,
             ),
           ),
         ),
@@ -198,7 +200,7 @@ class _HomeCellState extends State<HomeCell> {
                 );
               }
             },
-            tapCallback: (select){
+            tapCallback: (select) {
               if (widget.callback != null) {
                 widget.callback();
               }
@@ -223,7 +225,7 @@ class _HomeCellState extends State<HomeCell> {
                 return Image.asset(
                   'images/icon_collect.png',
                 );
-              } else if (state == ButtonState.select){
+              } else if (state == ButtonState.select) {
                 return Image.asset(
                   'images/icon_collect_press.png',
                 );
@@ -232,7 +234,10 @@ class _HomeCellState extends State<HomeCell> {
               }
             },
             tapCallback: (select) async {
-              await HomeNetworkQuery.homeCollect({'circle_id': widget.data.circleId, 'is_collect': select.toString()});
+              await HomeNetworkQuery.homeCollect({
+                'circle_id': widget.data.circleId,
+                'is_collect': select.toString()
+              });
             },
           ),
           Button(
@@ -255,7 +260,7 @@ class _HomeCellState extends State<HomeCell> {
                 return Image.asset(
                   'images/icon_dianzan.png',
                 );
-              } else if (state == ButtonState.select){
+              } else if (state == ButtonState.select) {
                 return Image.asset(
                   'images/icon_dianzan_press.png',
                 );
@@ -264,47 +269,13 @@ class _HomeCellState extends State<HomeCell> {
               }
             },
             tapCallback: (select) async {
-              await HomeNetworkQuery.homeLike({'circle_id': widget.data.circleId, 'is_point': select.toString()});
+              await HomeNetworkQuery.homeLike({
+                'circle_id': widget.data.circleId,
+                'is_point': select.toString()
+              });
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Widget commentWidget() {
-    List<Widget> widgets = [];
-    widget.data.comment.forEach((element) {
-      widgets.add(
-        Padding(
-          padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-          child: SuffixFlexText(
-            textList: ['${element.agentName}:', element.content],
-            maxLines: 2,
-            style: TextStyle(fontSize: 14),
-            textSpan: TextSpan(children: [
-              TextSpan(
-                  text: '${element.agentName}:',
-                  style: TextStyle(fontSize: 14, color: Colors.black38)),
-              TextSpan(text: element.content, style: TextStyle(fontSize: 14)),
-            ]),
-          ),
-        ),
-      );
-    });
-    return Padding(
-      padding: EdgeInsets.only(left: 69, right: 10),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          width: 330,
-          color: Colors.black12,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: widgets,
-          ),
-        ),
       ),
     );
   }
@@ -323,9 +294,6 @@ class _HomeCellState extends State<HomeCell> {
       widgets.add(imagesContainer(context));
     }
     widgets.add(actionContainer());
-    if (widget.data.comment.length > 0) {
-      widgets.add(commentWidget());
-    }
 
     return Container(
         color: Colors.white,

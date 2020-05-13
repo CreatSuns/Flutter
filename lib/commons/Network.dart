@@ -8,7 +8,12 @@ import 'dart:math';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_material/commons/const_some.dart';
+import 'package:flutter_material/main.dart';
+import 'package:flutter_material/routes/login/login.dart';
 import 'package:package_info/package_info.dart';
+import 'package:toast/toast.dart';
 
 class BaseUrl {
   // 配置默认请求地址
@@ -99,7 +104,6 @@ class HttpQuerery {
       Map<String, dynamic> headers}) async {
     int _code;
     String _msg;
-    var _backData;
 
     // 检测请求地址是否是完整地址
     if (!url.startsWith('http')) {
@@ -122,7 +126,7 @@ class HttpQuerery {
 //    }
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    var token = await ShardPreferences.localGet('access_token');
+    var token = await ShardPreferences.localGet(accessToken);
     print('token==$token===');
     try {
       Map<String, dynamic> params = {
@@ -171,19 +175,23 @@ class HttpQuerery {
         response = await dio.post(url, data: params);
       }
       print('response===$response====');
-//      if (response.statusCode != 200) {
-//        _msg = '网络请求错误,状态码:' + response.statusCode.toString();
-//        return _msg;
-//      }
+      if (response.statusCode != 200) {
+        _msg = '网络请求错误,状态码:' + response.statusCode.toString();
+        return _msg;
+      }
 
       // 返回结果处理
-//      Map<String, dynamic> resCallbackMap = response.data;
-//      _code = resCallbackMap['code'];
-//      _msg = resCallbackMap['msg'];
-//      _backData = resCallbackMap['data'];
-
-      return response.data;
-
+      Map<String, dynamic> resCallbackMap = json.decode(response.data);
+      _code = resCallbackMap['status'];
+      _msg = resCallbackMap['msg'];
+      if (_code == -1) {
+        await ShardPreferences.delete(accessToken);
+        runApp(MyApp());
+      } else if (_code == 0) {
+        await CustomToast.showToast(_msg);
+      } else {
+        return response.data;
+      }
     } catch (exception) {
       return '数据请求错误：' + exception.toString();
     }

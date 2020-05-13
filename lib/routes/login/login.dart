@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter_material/models/login_network_query.dart';
+import 'package:flutter_material/models/login/login_network_query.dart';
 import 'package:flutter_material/routes/RootWidget.dart';
 import 'package:round_checkbox/round_checkbox.dart';
 import 'package:toast/toast.dart';
@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
   void goLogin(BuildContext context) async {
     var pass = _checkLoginInfo();
     if (pass == false) return;
-//    await CustomToast.showLoading(msg: '正在登陆...');
+    await CustomToast.showLoading(msg: '正在登陆...');
     Map<String, dynamic> params = {
       'mobile_prefix': '+86',
       'mobile': userName,
@@ -64,7 +64,7 @@ class _LoginState extends State<Login> {
     };
     var model = await LoginNetWorkQuery.login(params);
     print(model);
-//    await CustomToast.cancelLoading();
+    await CustomToast.cancelLoading();
     if (model == null) {
     } else {
       if (model.data.agent.length > 1) {

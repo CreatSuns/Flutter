@@ -1,6 +1,6 @@
 import 'package:flutter_material/models/mine/notice_model_entity.dart';
 
-noticeModelEntityEntityFromJson(NoticeModelEntity data, Map<String, dynamic> json) {
+noticeModelEntityFromJson(NoticeModelEntity data, Map<String, dynamic> json) {
 	if (json['status'] != null) {
 		data.status = json['status']?.toInt();
 	}
@@ -13,7 +13,7 @@ noticeModelEntityEntityFromJson(NoticeModelEntity data, Map<String, dynamic> jso
 	return data;
 }
 
-Map<String, dynamic> noticeModelEntityEntityToJson(NoticeModelEntity entity) {
+Map<String, dynamic> noticeModelEntityToJson(NoticeModelEntity entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['status'] = entity.status;
 	data['msg'] = entity.msg;

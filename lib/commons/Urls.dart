@@ -7,3 +7,4 @@ const String homeCollectUrl = 'material/agent-circle/collect.json';
 
 const String noticeUrl = 'material/account/get-history-message-list.json';
 const String homeLikeUrl = 'material/agent-circle/point.json';
+const String homeCommentUrl = 'material/agent-circle/comment-list.json';

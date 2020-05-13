@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
 import 'package:flutter_keyboard_size/screen_height.dart';
-import 'package:flutter_material/ConstantFile.dart';
-import 'package:flutter_material/models/home_cover_image_entity.dart';
-import 'package:flutter_material/models/home_model_entity.dart';
-import 'package:flutter_material/models/home_network_query.dart';
-import 'package:flutter_material/models/login_model_entity.dart';
+import 'package:flutter_material/models/home/home_cover_image_entity.dart';
+import 'package:flutter_material/models/home/home_model_entity.dart';
+import 'package:flutter_material/models/home/home_network_query.dart';
+import 'package:flutter_material/models/login/login_model_entity.dart';
 import 'package:flutter_material/widgets/home/home_cell.dart';
 import 'package:flutter_material/widgets/home/home_navbar.dart';
+import 'package:flutter_material/widgets/home/home_section_foot.dart';
 
 import 'package:tableview/tableview.dart';
 
@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
-  List<HomeModelDataList> list;
+  List<HomeModelDataList> list = [];
   String coverImageStr;
   LoginModelDataAgent agent;
   FocusNode node = FocusNode();
@@ -26,11 +26,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   double alpha = 0.0;
   int lastOffset = 0;
   bool sss = false;
+
   void homeCover() async {
-//    LoginModelDataAgent model = await HomeNetworkQuery.getUserInfo();
+    LoginModelDataAgent model = await HomeNetworkQuery.getUserInfo();
     HomeCoverImageEntity entity = await HomeNetworkQuery.homeCoverImageQuery();
     setState(() {
-//      agent = model;
+      agent = model;
       coverImageStr = entity.data.coverImage;
     });
   }
@@ -40,10 +41,23 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       "circle_pass_id": 0,
       'pageSize': 10,
     });
-//    return model.data.xList;
     setState(() {
       list = model.data.xList;
     });
+  }
+
+  Widget agentIcon() {
+    if (agent == null) {
+      return Image.network(
+          'https://avatars2.githubusercontent.com/u/20411648?s=460&v=4');
+    } else {
+      return Image.network(
+        agent.agentAvatar,
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.fill,
+      );
+    }
   }
 
   Widget tableHeaderView() {
@@ -62,10 +76,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 200,
-            child: Image(
-              image: NetworkImage(coverImageStr),
-              fit: BoxFit.fill,
-            ),
+            child: coverImageStr == null
+                ? null
+                : Image(
+                    image: NetworkImage(coverImageStr),
+                    fit: BoxFit.fill,
+                  ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 280, top: 150),
@@ -74,16 +90,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               child: SizedBox(
                 width: 80,
                 height: 80,
-//                child: IconButton(
-//                  padding: EdgeInsets.all(0),
-//                  icon: Image.network(
-//                    agent.agentAvatar,
-//                    width: double.infinity,
-//                    height: double.infinity,
-//                    fit: BoxFit.fill,
-//                  ),
-//                  onPressed: () {},
-//                ),
+                child: IconButton(
+                  padding: EdgeInsets.all(0),
+                  icon: agentIcon(),
+                  onPressed: () {},
+                ),
               ),
             ),
           ),
@@ -99,7 +110,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     lastOffset = 0;
 //    WidgetsBinding.instance.addObserver(this);
     scrollController.addListener(() {
-      int offset = scrollController.offset~/1;
+      int offset = scrollController.offset ~/ 1;
 
       double aa = offset / 100;
       if (aa < 0) {
@@ -123,7 +134,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     super.reassemble();
 
     homeCover();
-
   }
 
 //  @override
@@ -155,9 +165,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         context: context,
         removeTop: true,
         child: Scaffold(
-        resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: false,
           body: Stack(
-          children: [
+            children: [
 //            FutureBuilder(
 //              future: homeData(),
 //              builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -176,53 +186,62 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 //                }
 //              },
 //            ),
-            TableView(
-            scrollController: scrollController,
-            tableHeaderView: tableHeaderView(),
-            sectionNumber: 1,
-            numberRowOfSection: (BuildContext context, int index) {
-              return list.length;
-            },
-            rowView: (BuildContext context, int section, int row) {
-              return HomeCell(
-                index: row,
-                data: list[row],
-                callback: () {
-                  FocusScope.of(context).requestFocus(node);
+              TableView(
+                scrollController: scrollController,
+                tableHeaderView: tableHeaderView(),
+                sectionNumber: 1,
+                numberRowOfSection: (BuildContext context, int index) {
+                  return list.length;
                 },
-              );
-            },
-          ),
-            HomeNavbar(
-              alpha: alpha,
-              top: MediaQuery.of(context).padding.top,
-              canRelease: true,
-            ),
-            Consumer<ScreenHeight>(builder: (context, value, child){
-              print('value:${value.keyboardHeight}, ${value.screenHeight}, ${value.isSmall}, ${value.isOpen}');
-              return Padding(
-                padding: EdgeInsets.only(top:620),
-                child: TextField(
-                  controller: controller,
-                  focusNode: node,
-                  decoration: InputDecoration(
-                    hintText: '请输入内容',
-                    hintStyle: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
+                rowView: (BuildContext context, int section, int row) {
+                  return Column(
+                    children: [
+                      HomeCell(
+                        index: row,
+                        data: list[row],
+                        callback: () {
+                          FocusScope.of(context).requestFocus(node);
+                        },
+                      ),
+                      HomeSectionFoot(list[row].comment, moreComment: () {
+                        Navigator.of(context)
+                            .pushNamed('userAgent', arguments: list[row]);
+                      }),
+                    ],
+                  );
+                },
+              ),
+              HomeNavbar(
+                alpha: alpha,
+                top: MediaQuery.of(context).padding.top,
+                canRelease: true,
+              ),
+              Consumer<ScreenHeight>(builder: (context, value, child) {
+                print(
+                    'value:${value.keyboardHeight}, ${value.screenHeight}, ${value.isSmall}, ${value.isOpen}');
+                return Padding(
+                  padding: EdgeInsets.only(top: 620),
+                  child: TextField(
+                    controller: controller,
+                    focusNode: node,
+                    decoration: InputDecoration(
+                      hintText: '请输入内容',
+                      hintStyle: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black38, width: 1)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black38, width: 1)),
                     ),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Colors.black38, width: 1)),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Colors.black38, width: 1)),
                   ),
-                ),
-              );
-            }),
-          ],
-        ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );

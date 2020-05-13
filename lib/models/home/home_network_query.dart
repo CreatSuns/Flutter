@@ -4,12 +4,14 @@ import 'dart:convert';
 import 'package:flutter_material/commons/Network.dart';
 import 'package:flutter_material/commons/Urls.dart';
 import 'package:flutter_material/commons/const_some.dart';
+import 'package:flutter_material/generated/json/home_comment_model_entity_helper.dart';
 import 'package:flutter_material/generated/json/home_cover_image_entity_helper.dart';
 import 'package:flutter_material/generated/json/login_model_entity_helper.dart';
-import 'package:flutter_material/models/home_cover_image_entity.dart';
-import 'package:flutter_material/models/home_model_entity.dart';
+import 'package:flutter_material/models/home/home_comment_model_entity.dart';
+import 'package:flutter_material/models/home/home_cover_image_entity.dart';
+import 'package:flutter_material/models/home/home_model_entity.dart';
 import 'package:flutter_material/generated/json/home_model_entity_helper.dart';
-import 'package:flutter_material/models/login_model_entity.dart';
+import 'package:flutter_material/models/login/login_model_entity.dart';
 import 'package:sqlmanager/model_turn.dart';
 import 'package:sqlmanager/sqlmanager.dart';
 
@@ -53,4 +55,16 @@ class HomeNetworkQuery {
     loginModelDataAgentFromJson(agent, list.first);
     return agent;
   }
+
+  static Future homeCommentQuery(Map<String, dynamic> map) async {
+    var data = await HttpQuerery.get(homeCommentUrl, data: map);
+    try {
+      HomeCommentModelEntity homeModelEntity = homeCommentModelEntityFromJson(HomeCommentModelEntity(), json.decode(data));
+      return homeModelEntity;
+    } catch (error) {
+      print('error-----$error----');
+      return null;
+    }
+  }
+
 }

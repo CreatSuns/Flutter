@@ -1,4 +1,4 @@
-import 'package:flutter_material/models/home_model_entity.dart';
+import 'package:flutter_material/models/home/home_model_entity.dart';
 
 homeModelEntityFromJson(HomeModelEntity data, Map<String, dynamic> json) {
 	if (json['status'] != null) {

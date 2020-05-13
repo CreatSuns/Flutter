@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material/ConstantFile.dart';
 import 'package:flutter_material/commons/Network.dart';
-import 'package:flutter_material/models/login_model_entity.dart';
-import 'package:flutter_material/models/login_network_query.dart';
+import 'package:flutter_material/models/login/login_model_entity.dart';
+import 'package:flutter_material/models/login/login_network_query.dart';
 import 'package:flutter_material/routes/RootWidget.dart';
 import 'package:tableview/tableview.dart';
 
